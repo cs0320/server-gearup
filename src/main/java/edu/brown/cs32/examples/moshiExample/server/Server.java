@@ -18,7 +18,8 @@ import java.util.Set;
 public class Server {
     public static void main(String[] args) {
         Set<Soup> menu = new HashSet<>();
-        Spark.port(3232);
+        int PORT = 3232;
+        Spark.port(PORT);
         /*
             Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
             be able to make requests to the server.
@@ -45,6 +46,6 @@ public class Server {
         Spark.get("order", new OrderHandler(menu));
         Spark.init();
         Spark.awaitInitialization();
-        System.out.println("Server started.");
+        System.out.format("Server started at http://localhost:%d",PORT);
     }
 }
