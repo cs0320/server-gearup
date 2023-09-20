@@ -3,6 +3,7 @@ package edu.brown.cs32.examples.moshiExample.server;
 import static spark.Spark.after;
 
 import edu.brown.cs32.examples.moshiExample.soup.Soup;
+import edu.brown.cs32.examples.moshiExample.soup.Soup;
 import spark.Filter;
 import spark.Spark;
 import java.util.HashSet;
@@ -17,8 +18,9 @@ import java.util.Set;
  */
 public class Server {
     public static void main(String[] args) {
+        int port = 3232;
         Set<Soup> menu = new HashSet<>();
-        Spark.port(3232);
+        Spark.port(port);
         /*
             Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
             be able to make requests to the server.
@@ -41,10 +43,13 @@ public class Server {
             response.header("Access-Control-Allow-Methods", "*");
         });
 
-        // Setting up the handler for the GET /order endpoint
+        // Setting up the handler for the GET /order and /mock endpoints
         Spark.get("order", new OrderHandler(menu));
+        Spark.get("mock", new MockHandler());
         Spark.init();
         Spark.awaitInitialization();
-        System.out.println("Server started.");
+
+        // Notice this link alone leads to a 404... Why is that?
+        System.out.println("Server started at http://localhost:" + port);
     }
 }

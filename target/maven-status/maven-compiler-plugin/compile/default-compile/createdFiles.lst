@@ -1,0 +1,11 @@
+edu/brown/cs32/examples/moshiExample/soup/ActualFlavorException.class
+edu/brown/cs32/examples/moshiExample/ingredients/Ingredient.class
+edu/brown/cs32/examples/moshiExample/server/OrderHandler.class
+edu/brown/cs32/examples/moshiExample/ingredients/Carrots$CarrotChopType.class
+edu/brown/cs32/examples/moshiExample/server/OrderHandler$SoupNoRecipesFailureResponse.class
+edu/brown/cs32/examples/moshiExample/soup/Soup.class
+edu/brown/cs32/examples/moshiExample/server/Server.class
+edu/brown/cs32/examples/moshiExample/ingredients/Carrots.class
+edu/brown/cs32/examples/moshiExample/server/SoupAPIUtilities.class
+edu/brown/cs32/examples/moshiExample/server/OrderHandler$SoupSuccessResponse.class
+edu/brown/cs32/examples/moshiExample/ingredients/HotPeppers.class
