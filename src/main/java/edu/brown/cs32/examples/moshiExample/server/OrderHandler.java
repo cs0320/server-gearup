@@ -50,7 +50,7 @@ public class OrderHandler implements Route {
         return new SoupNoRecipesFailureResponse().serialize();
 
         // NOTE: beware this "return Object" and "throws Exception" idiom. We need to follow it because
-        //   the library uses it, but in general this is lowers the protection of the type system.
+        //   the library uses it, but in general this lowers the protection of the type system.
     }
 
     /**
