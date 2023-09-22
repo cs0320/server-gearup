@@ -43,6 +43,9 @@ public class OrderHandler implements Route {
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
+        // TODO: 2) Right now, we only serialize the first soup, let's make it so you can choose which soup you want!
+        // Hint: How can you utilize queryParameters?
+
         for(Soup soup : menu) {
             // Just make the first one
             return new SoupSuccessResponse(soup.ingredients()).serialize();

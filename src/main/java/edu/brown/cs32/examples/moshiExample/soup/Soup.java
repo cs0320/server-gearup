@@ -20,6 +20,7 @@ public class Soup {
      */
     final private Set<Ingredient> contents = new HashSet<>();
     final boolean timidChef;
+    //TODO: Add some kind of identifier that you can search by... May need some way to access/change it too
 
     public Soup(boolean timidChef) {
         this.timidChef = timidChef;

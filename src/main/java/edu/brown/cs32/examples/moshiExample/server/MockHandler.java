@@ -32,8 +32,12 @@ public class MockHandler implements Route {
     // If you are interested in how parameters are received, try commenting out and
     // printing these lines! Notice that requesting a specific parameter requires that parameter
     // to be fulfilled.
-    //Set<String> params = request.queryParams();
-    //String testParam = request.queryParams("test");
+    // If you specify a queryParam, you can access it by appending ?parameterName=name to the endpoint
+    // ex. http://localhost:3232/mock?test=name
+
+    Set<String> params = request.queryParams();
+    String testParam = request.queryParams("test");
+
 
     this.buildArbitraryRequest();
 

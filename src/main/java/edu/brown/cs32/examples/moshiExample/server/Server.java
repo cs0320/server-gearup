@@ -20,6 +20,7 @@ public class Server {
     public static void main(String[] args) {
         int port = 3232;
         Set<Soup> menu = new HashSet<>();
+        // TODO: Is there something wrong with this menu?
         Spark.port(port);
         /*
             Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
