@@ -1,7 +1,5 @@
 package edu.brown.cs32.examples.moshiExample.soup;
 
-//import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
-
 import java.util.*;
 
 /**
@@ -15,17 +13,14 @@ public class Soup {
     /**
      * Internal container for how much of each ingredient the soup contains right now.
      *
-     * Note: making the field `final` only keeps us from overwriting the map itself, *not* its contents!
+     * Note: making the field `final` only keeps us from overwriting the List itself, *not* its contents!
      *
      */
-//    final private Set<Ingredient> contents = new HashSet<>();
-        final private List<String> ingredients = new ArrayList<>();
-    final boolean timidChef;
-    //TODO: Add some kind of identifier that you can search by... May need some way to access/change it too
+    final private List<String> ingredients = new ArrayList<>();
     private String soupName;
 
-    public Soup(boolean timidChef) {
-        this.timidChef = timidChef;
+    public Soup(List<String> ingredients) {
+        this.ingredients.addAll(ingredients);
     }
 
     public void stirIn(String ingredient) {
@@ -39,14 +34,6 @@ public class Soup {
      */
     public List<String> getIngredients() {
         return Collections.unmodifiableList(this.ingredients);
-    }
-
-    /**
-     * Is the chef timid? This may mean different things for adding different ingredients
-     * @return timidity of chef
-     */
-    public boolean isTimidChef() {
-        return timidChef;
     }
 
     public String getSoupName() {
