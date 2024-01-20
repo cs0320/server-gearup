@@ -4,7 +4,6 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
-import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
 import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
 import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
 import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
@@ -50,15 +49,13 @@ public class SoupAPIUtilities {
         // will arrive. Fortunately, Moshi lets us disambiguate between them...
         //   (Technical note: this is what we need the 2nd Moshi dependency for; Polymorphic adapters
         //   aren't in the basic package.)
-        Moshi moshi = new Moshi.Builder()
-                .add(
-                        // Expect something that's an Ingredient...
-                        PolymorphicJsonAdapterFactory.of(Ingredient.class, "type")
-                                // ...with two possibilities for concrete shapes, disambiguated by type:
-                                .withSubtype(Carrots.class, "carrot")
-                                .withSubtype(HotPeppers.class, "hotpeppers")
-                )
-                .build();
+
+        /* Kristophe changes:
+         *  Was sure to remove the extra code involving the  PolymorphicJsonAdapterFactory because based on the previous gearup and 
+         *  what we discussed it seems to be less of a tool that is mandatory like the builder and calling .build on it. We really only 
+         *  engage with using this when we are dealing with Polymorphism and needing to handle very specifc types.
+         */
+        Moshi moshi = new Moshi.Builder().build();
 
         // Now Moshi is set up to disambiguate ingredients. If we add new ingredients, we need to add them above,
         // or else come up with a cleaner way to register new ingredients without changing the code...
@@ -118,15 +115,11 @@ public class SoupAPIUtilities {
     public static String toJson(Soup soup) {
         // as in fromJson, we need to work with arbitrary Ingredients.
         // The polymorphic factory will automatically _insert_ the "type" field
-        Moshi moshi = new Moshi.Builder()
-                .add(
-                        // Expect something that's an Ingredient...
-                        PolymorphicJsonAdapterFactory.of(Ingredient.class, "type")
-                                // ...with two possibilities for concrete shapes, disambiguated by type:
-                                .withSubtype(Carrots.class, "carrot")
-                                .withSubtype(HotPeppers.class, "hotpeppers")
-                )
-                .build();
+
+        /* Kristophe Chnages:
+         * Check lines 55-57 for explanation
+         */
+        Moshi moshi = new Moshi.Builder().build();
 
         // Although the Java object contains a set, there's no analogue in Json.
         // Moshi will serialize this set as a list.

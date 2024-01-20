@@ -13,6 +13,7 @@ import spark.Response;
 import spark.Route;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -48,7 +49,8 @@ public class OrderHandler implements Route {
 
         for(Soup soup : menu) {
             // Just make the first one``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
-            return new SoupSuccessResponse(soup.ingredients()).serialize();
+            Map<String, Set<Ingredient>> soupMap = new HashMap<>();
+            return new SoupSuccessResponse(soupMap.put(soup.toString(), soup.ingredients())).serialize();
         }
         return new SoupNoRecipesFailureResponse().serialize();
 
@@ -59,7 +61,7 @@ public class OrderHandler implements Route {
     /**
      * Response object to send, containing a soup with certain ingredients in it
      */
-    public record SoupSuccessResponse(String response_type, Set<Ingredient> ingredients) {
+    public record SoupSuccessResponse(String response_type, Map<String, Set<Ingredient>> ingredients) {
         public SoupSuccessResponse(Set<Ingredient> ingredients) {
             this("success", ingredients);
         }
