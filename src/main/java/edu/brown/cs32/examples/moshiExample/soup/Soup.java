@@ -60,7 +60,7 @@ public class Soup {
 
     @Override
     public String toString() {
-        return "Soup with "+this.getIngredients().toString()+" made by timid="+this.isTimidChef();
+        return "Soup with "+this.getIngredients().toString();
     }
 
     /**
@@ -71,7 +71,7 @@ public class Soup {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Soup soup = (Soup) o;
-        return timidChef == soup.timidChef && Objects.equals(ingredients, soup.getIngredients());
+        return Objects.equals(this.ingredients, soup.getIngredients());
     }
 
     /**
@@ -79,7 +79,7 @@ public class Soup {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(ingredients, timidChef);
+        return Objects.hash(this.ingredients);
     }
 
 }
