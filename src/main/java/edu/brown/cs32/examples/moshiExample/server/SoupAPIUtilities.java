@@ -4,9 +4,9 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
-import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
-import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
-import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
+//import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
+//import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
+//import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
 import edu.brown.cs32.examples.moshiExample.soup.ActualFlavorException;
 import edu.brown.cs32.examples.moshiExample.soup.Soup;
 
@@ -69,21 +69,22 @@ public class SoupAPIUtilities {
         // Instead, let's be more precise. Java has built-in classes for talking about generic types programmatically.
         // Building libraries that use them is outside the scope of this class, but we'll follow the Moshi docs'
         // template by creating a Type object corresponding to List<Ingredient>:
-        Type listOfIngredientsType = Types.newParameterizedType(List.class, Ingredient.class);
+        Type listOfIngredientsType = Types.newParameterizedType(List.class, String.class);
         // ...and pass it instead of List.class:
-        JsonAdapter<List<Ingredient>> recipeAdapter = moshi.adapter(listOfIngredientsType);
+        JsonAdapter<List<String>> recipeAdapter = moshi.adapter(listOfIngredientsType);
         // ...and finally read the json string:
         try {
-            List<Ingredient> recipe = recipeAdapter.fromJson(jsonList);
+            List<String> recipe = recipeAdapter.fromJson(jsonList);
             // In the beginning, the soup is empty. There's nothing in the pot.
             Soup result = new Soup(timidChef);
 
             // I suppose we'd better actually add the ingredients to the soup, too.
-            for(Ingredient i : recipe) {
+            for(String ingredient : recipe) {
                 // We could stir the ingredients into the soup like this:
                 // result.stirIn(i);
                 // but doing that would skip the checking we've implemented in the ingredient classes. Instead:
-                i.add(result);
+//                ingredient.add(result);
+                result.stirIn(ingredient);
             }
             return result;
         }
@@ -123,8 +124,8 @@ public class SoupAPIUtilities {
 
         // Although the Java object contains a set, there's no analogue in Json.
         // Moshi will serialize this set as a list.
-        Type setOfIngredientsType = Types.newParameterizedType(Set.class, Ingredient.class);
-        JsonAdapter<Set<Ingredient>> adapter = moshi.adapter(setOfIngredientsType);
-        return adapter.toJson(soup.ingredients());
+        Type setOfIngredientsType = Types.newParameterizedType(List.class, String.class);
+        JsonAdapter<List<String>> adapter = moshi.adapter(setOfIngredientsType);
+        return adapter.toJson(soup.getIngredients());
     }
 }

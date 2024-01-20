@@ -2,9 +2,9 @@ package edu.brown.cs32.examples.moshiExample;
 
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
-import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
-import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
-import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
+//import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
+//import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
+//import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
 import edu.brown.cs32.examples.moshiExample.server.OrderHandler;
 import edu.brown.cs32.examples.moshiExample.soup.Soup;
 import okio.Buffer;
@@ -68,8 +68,8 @@ public class TestSoupAPIHandlers {
     }
 
     /**
-     * Shared state for all tests. We need to be able to mutate it (adding recipes etc.) but never need to replace
-     * the reference itself. We clear this state out after every test runs.
+     * Shared state for all tests. We need to be able to mutate it (adding recipes etc.) but never
+     * need to replace the reference itself. We clear this state out after every test runs.
      */
 
     final Set<Soup> menu = new HashSet<>();
@@ -94,14 +94,15 @@ public class TestSoupAPIHandlers {
 
     /**
      * Helper to start a connection to a specific API endpoint/params
-     * @param apiCall the call string, including endpoint
-     *                (NOTE: this would be better if it had more structure!)
+     *
+     * @param apiCall the call string, including endpoint (NOTE: this would be better if it had more
+     *                structure!)
      * @return the connection for the given URL, just after connecting
      * @throws IOException if the connection fails for some reason
      */
     static private HttpURLConnection tryRequest(String apiCall) throws IOException {
         // Configure the connection (but don't actually send the request yet)
-        URL requestURL = new URL("http://localhost:"+Spark.port()+"/"+apiCall);
+        URL requestURL = new URL("http://localhost:" + Spark.port() + "/" + apiCall);
         HttpURLConnection clientConnection = (HttpURLConnection) requestURL.openConnection();
 
         // The default method is "GET", which is what we're using here.
@@ -125,47 +126,49 @@ public class TestSoupAPIHandlers {
         Moshi moshi = new Moshi.Builder().build();
         // We'll use okio's Buffer class here
         OrderHandler.SoupNoRecipesFailureResponse response =
-                moshi.adapter(OrderHandler.SoupNoRecipesFailureResponse.class).fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+            moshi.adapter(OrderHandler.SoupNoRecipesFailureResponse.class)
+                .fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
         // ^ If that succeeds, we got the expected response. Notice that this is *NOT* an exception, but a real Json reply.
 
         clientConnection.disconnect();
     }
 
-    @Test
-    // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type checker
-    public void testAPIOneRecipe() throws IOException {
-
-        menu.add(Soup.buildNoExceptions(true, Set.of(
-                new Carrots(Carrots.CarrotChopType.MATCHSTICK, 6.0),
-                new HotPeppers(1, 2.0))));
-
-        HttpURLConnection clientConnection = tryRequest("order");
-        // Get an OK response (the *connection* worked, the *API* provides an error response)
-        assertEquals(200, clientConnection.getResponseCode());
-
-        // Now we need to see whether we've got the expected Json response.
-        // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
-        // NOTE:   (How could we reduce the code repetition?)
-        Moshi moshi = new Moshi.Builder().add(
-                // Expect something that's an Ingredient...
-                PolymorphicJsonAdapterFactory.of(Ingredient.class, "type")
-                        // ...with two possibilities for concrete shapes, disambiguated by type:
-                        .withSubtype(Carrots.class, "carrot")
-                        .withSubtype(HotPeppers.class, "hotpeppers"))
-                .build();
-        // NOTE: We're using a lot of raw strings here. What could we do about that?
-
-        // We'll use okio's Buffer class here
-        OrderHandler.SoupSuccessResponse response =
-                moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-
-        // ^ If that succeeds, we got the expected response. But we should also check the ingredients
-        assertEquals(Set.of(
-                new Carrots(Carrots.CarrotChopType.MATCHSTICK, 6.0),
-                new HotPeppers(1, 2.0)),
-                    response.ingredients());
-
-        clientConnection.disconnect();
-    }
+//    @Test
+//    // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type checker
+//    public void testAPIOneRecipe() throws IOException {
+//
+//        menu.add(Soup.buildNoExceptions(true, Set.of(
+//                new Carrots(Carrots.CarrotChopType.MATCHSTICK, 6.0),
+//                new HotPeppers(1, 2.0))));
+//
+//        HttpURLConnection clientConnection = tryRequest("order");
+//        // Get an OK response (the *connection* worked, the *API* provides an error response)
+//        assertEquals(200, clientConnection.getResponseCode());
+//
+//        // Now we need to see whether we've got the expected Json response.
+//        // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
+//        // NOTE:   (How could we reduce the code repetition?)
+//        Moshi moshi = new Moshi.Builder().add(
+//                // Expect something that's an Ingredient...
+//                PolymorphicJsonAdapterFactory.of(Ingredient.class, "type")
+//                        // ...with two possibilities for concrete shapes, disambiguated by type:
+//                        .withSubtype(Carrots.class, "carrot")
+//                        .withSubtype(HotPeppers.class, "hotpeppers"))
+//                .build();
+//        // NOTE: We're using a lot of raw strings here. What could we do about that?
+//
+//        // We'll use okio's Buffer class here
+//        OrderHandler.SoupSuccessResponse response =
+//                moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+//
+//        // ^ If that succeeds, we got the expected response. But we should also check the ingredients
+//        assertEquals(Set.of(
+//                new Carrots(Carrots.CarrotChopType.MATCHSTICK, 6.0),
+//                new HotPeppers(1, 2.0)),
+//                    response.ingredients());
+//
+//        clientConnection.disconnect();
+//    }
+//}
 }

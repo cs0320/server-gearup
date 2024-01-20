@@ -1,6 +1,6 @@
 package edu.brown.cs32.examples.moshiExample.soup;
 
-import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
+//import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
 
 import java.util.*;
 
@@ -18,16 +18,18 @@ public class Soup {
      * Note: making the field `final` only keeps us from overwriting the map itself, *not* its contents!
      *
      */
-    final private Set<Ingredient> contents = new HashSet<>();
+//    final private Set<Ingredient> contents = new HashSet<>();
+        final private List<String> ingredients = new ArrayList<>();
     final boolean timidChef;
     //TODO: Add some kind of identifier that you can search by... May need some way to access/change it too
+    private String soupName;
 
     public Soup(boolean timidChef) {
         this.timidChef = timidChef;
     }
 
-    public void stirIn(Ingredient ingredient) {
-        contents.add(ingredient);
+    public void stirIn(String ingredient) {
+        this.ingredients.add(ingredient);
     }
 
     /**
@@ -35,8 +37,8 @@ public class Soup {
      * it will be updated as the pot of soup changes, but doesn't allow modifications.
      * @return an immutable view of the contents of this pot of soup
      */
-    public Set<Ingredient> ingredients() {
-        return Collections.unmodifiableSet(contents);
+    public List<String> getIngredients() {
+        return Collections.unmodifiableList(this.ingredients);
     }
 
     /**
@@ -47,23 +49,31 @@ public class Soup {
         return timidChef;
     }
 
-    /**
-     * Static factory method to make testing easier. Produces a Soup based on parameters and ingredients.
-     * Does *not* produce ActualFlavorExceptions, even if the chef is timid.
-     * @param isTimidChef whether the chef is timid
-     * @param ingredients the set of ingredients to try mixing together
-     * @return the new Soup object
-     */
-    public static Soup buildNoExceptions(boolean isTimidChef, Collection<Ingredient> ingredients)  {
-        Soup result = new Soup(isTimidChef);
-        for(Ingredient i: ingredients)
-            result.stirIn(i);
-        return result;
+    public String getSoupName() {
+        return this.soupName;
     }
+
+    public void setSoupName(String soupName) {
+        this.soupName = soupName;
+    }
+
+//    /**
+//     * Static factory method to make testing easier. Produces a Soup based on parameters and ingredients.
+//     * Does *not* produce ActualFlavorExceptions, even if the chef is timid.
+//     * @param isTimidChef whether the chef is timid
+//     * @param ingredients the set of ingredients to try mixing together
+//     * @return the new Soup object
+//     */
+//    public static Soup buildNoExceptions(boolean isTimidChef, Collection<Ingredient> ingredients)  {
+//        Soup result = new Soup(isTimidChef);
+//        for(Ingredient i: ingredients)
+//            result.stirIn(i);
+//        return result;
+//    }
 
     @Override
     public String toString() {
-        return "Soup with "+ingredients().toString()+" made by timid="+isTimidChef();
+        return "Soup with "+this.getIngredients().toString()+" made by timid="+this.isTimidChef();
     }
 
     /**
@@ -74,7 +84,7 @@ public class Soup {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Soup soup = (Soup) o;
-        return timidChef == soup.timidChef && Objects.equals(contents, soup.contents);
+        return timidChef == soup.timidChef && Objects.equals(ingredients, soup.getIngredients());
     }
 
     /**
@@ -82,7 +92,7 @@ public class Soup {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(contents, timidChef);
+        return Objects.hash(ingredients, timidChef);
     }
 
 }

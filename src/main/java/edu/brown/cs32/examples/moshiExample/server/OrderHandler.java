@@ -4,10 +4,13 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
-import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
-import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
-import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
+//import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
+//import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
+//import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
 import edu.brown.cs32.examples.moshiExample.soup.Soup;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -45,10 +48,14 @@ public class OrderHandler implements Route {
     public Object handle(Request request, Response response) throws Exception {
         // TODO: 2) Right now, we only serialize the first soup, let's make it so you can choose which soup you want!
         // Hint: How can you utilize queryParameters?
-
+        String soupname = request.queryParams("soupname");
         for(Soup soup : menu) {
-            // Just make the first one``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
-            return new SoupSuccessResponse(soup.ingredients()).serialize();
+            // Just make the first soup
+            Map<String, Soup> soupMap = new HashMap<>();
+            soupMap.put(soup.getSoupName(), soup);
+            return new SoupSuccessResponse(soupMap).serialize();
+//            return new SoupSuccessResponse(soupMap.put(soup.toString(), soup.ingredients())).serialize();
+//            return new SoupSuccessResponse(soup.ingredients()).serialize();
         }
         return new SoupNoRecipesFailureResponse().serialize();
 
@@ -59,9 +66,9 @@ public class OrderHandler implements Route {
     /**
      * Response object to send, containing a soup with certain ingredients in it
      */
-    public record SoupSuccessResponse(String response_type, Set<Ingredient> ingredients) {
-        public SoupSuccessResponse(Set<Ingredient> ingredients) {
-            this("success", ingredients);
+    public record SoupSuccessResponse(String response_type, Map<String,Soup> soupMap) {
+        public SoupSuccessResponse(Map<String,Soup> soupMap) {
+            this("success", soupMap);
         }
         /**
          * @return this response, serialized as Json
@@ -71,6 +78,8 @@ public class OrderHandler implements Route {
                 // Just like in SoupAPIUtilities.
                 //   (How could we rearrange these similar methods better?)
                 Moshi moshi = new Moshi.Builder().build();
+//                Type type = Types.newParameterizedType(List.class, Types.newParameterizedType(List.class, String.class));
+//                Type newType = Types.newParameterizedType(Map.class,String.class,Soup.class);
                 JsonAdapter<SoupSuccessResponse> adapter = moshi.adapter(SoupSuccessResponse.class);
                 return adapter.toJson(this);
             } catch(Exception e) {
