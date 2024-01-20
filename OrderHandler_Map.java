@@ -50,7 +50,7 @@ public class OrderHandler implements Route {
         for(Soup soup : menu) {
             // Just make the first one
             Map<String, Set<Ingredient>> soupMap = new HashMap<>();
-            return new SoupSuccessResponse(soupMap.put(soup.toString(), soup.ingredients())).serialize();
+            return new SoupSuccessResponse(soupMap.put(soup.getSoupName() , soup.ingredients())).serialize();
         }
         return new SoupNoRecipesFailureResponse().serialize();
 

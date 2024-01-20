@@ -7,6 +7,7 @@ import edu.brown.cs32.examples.moshiExample.soup.Soup;
 import spark.Filter;
 import spark.Spark;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,7 +22,9 @@ public class Server {
         int port = 3232;
         Set<Soup> menu = new HashSet<>();
         // TODO: Is there something wrong with this menu?
-        Soup frenchOnion = new Soup(false);
+        List<String> soup_ingredient = List.of("onions", "beef broth", "thyme", "bay leaves", "French bread", "gruyere cheese");
+        Soup frenchOnion = new Soup(soup_ingredient);
+        // Soup frenchOnion = new Soup(false);
         frenchOnion.setSoupName("french onion");
         menu.add(frenchOnion);
         Spark.port(port);

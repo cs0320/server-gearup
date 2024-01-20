@@ -43,18 +43,13 @@ public class SoupAPIUtilities {
      * @throws IOException if the given string isn't valid JSON
      * @return the Soup object
      */
-    public static Soup fromJSON(String jsonList, boolean timidChef) throws JsonDataException, IOException, ActualFlavorException {
+    public static Soup fromJSON(String jsonList) throws JsonDataException, IOException, ActualFlavorException {
         // Create an adapter to read the json string (hopefully) into Ingredient objects
         // There's one challenge: as the writer of this class, we don't know *which* ingredients
         // will arrive. Fortunately, Moshi lets us disambiguate between them...
         //   (Technical note: this is what we need the 2nd Moshi dependency for; Polymorphic adapters
         //   aren't in the basic package.)
 
-        /* Kristophe changes:
-         *  Was sure to remove the extra code involving the  PolymorphicJsonAdapterFactory because based on the previous gearup and 
-         *  what we discussed it seems to be less of a tool that is mandatory like the builder and calling .build on it. We really only 
-         *  engage with using this when we are dealing with Polymorphism and needing to handle very specifc types.
-         */
         Moshi moshi = new Moshi.Builder().build();
 
         // Now Moshi is set up to disambiguate ingredients. If we add new ingredients, we need to add them above,
@@ -76,7 +71,7 @@ public class SoupAPIUtilities {
         try {
             List<String> recipe = recipeAdapter.fromJson(jsonList);
             // In the beginning, the soup is empty. There's nothing in the pot.
-            Soup result = new Soup(timidChef);
+            Soup result = new Soup(recipe);
 
             // I suppose we'd better actually add the ingredients to the soup, too.
             for(String ingredient : recipe) {
@@ -117,9 +112,6 @@ public class SoupAPIUtilities {
         // as in fromJson, we need to work with arbitrary Ingredients.
         // The polymorphic factory will automatically _insert_ the "type" field
 
-        /* Kristophe Chnages:
-         * Check lines 55-57 for explanation
-         */
         Moshi moshi = new Moshi.Builder().build();
 
         // Although the Java object contains a set, there's no analogue in Json.

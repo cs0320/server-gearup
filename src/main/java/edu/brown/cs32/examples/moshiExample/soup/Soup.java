@@ -2,6 +2,7 @@ package edu.brown.cs32.examples.moshiExample.soup;
 
 import java.util.*;
 
+
 /**
  * A state container for this demo. In the soup-making story, this class is a pot of soup. The soup may not
  * be entirely finished (indeed, it's often tempting to add more things to a pot of soup). The effects of adding
@@ -51,12 +52,13 @@ public class Soup {
 //     * @param ingredients the set of ingredients to try mixing together
 //     * @return the new Soup object
 //     */
-//    public static Soup buildNoExceptions(boolean isTimidChef, Collection<Ingredient> ingredients)  {
-//        Soup result = new Soup(isTimidChef);
-//        for(Ingredient i: ingredients)
-//            result.stirIn(i);
-//        return result;
-//    }
+   public static Soup buildNoExceptions(String name,List<String> ingredients)  {
+       Soup result = new Soup(ingredients);
+       result.setSoupName(name);
+    //    for(String i: ingredients)
+    //        result.stirIn(i);
+       return result;
+   }
 
     @Override
     public String toString() {
