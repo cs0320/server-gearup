@@ -26,13 +26,13 @@ import java.util.Set;
  *
  */
 public class OrderHandler implements Route {
-    private final Set<Soup> menu;
+    private final Map<String,Soup> menu;
 
     /**
      * Constructor accepts some shared state
      * @param menu the shared state (note: we *DON'T* want to make a defensive copy here!
      */
-    public OrderHandler(Set<Soup> menu) {
+    public OrderHandler(Map<String,Soup> menu) {
         this.menu = menu;
     }
 
@@ -47,15 +47,16 @@ public class OrderHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         // TODO: 2) Right now, we only serialize the first soup, let's make it so you can choose which soup you want!
-        // Hint: How can you utilize queryParameters?
         String soupname = request.queryParams("soupname");
-        for(Soup soup : menu) {
+        for(Soup soup : this.menu) {
             // Just make the first soup
             Map<String, Soup> soupMap = new HashMap<>();
             soupMap.put(soup.getSoupName(), soup);
+
+            // SOLUTION MIGHT LOOK LIKE
+            Soup foundSoup = this.menu.
             return new SoupSuccessResponse(soupMap).serialize();
 //            return new SoupSuccessResponse(soupMap.put(soup.toString(), soup.ingredients())).serialize();
-//            return new SoupSuccessResponse(soup.ingredients()).serialize();
         }
         return new SoupNoRecipesFailureResponse().serialize();
 

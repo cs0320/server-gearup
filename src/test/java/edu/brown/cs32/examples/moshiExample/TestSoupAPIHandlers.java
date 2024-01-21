@@ -6,6 +6,7 @@ import com.squareup.moshi.Moshi;
 //import edu.brown.cs32.examples.moshiExample.ingredients.Ingredient;
 import edu.brown.cs32.examples.moshiExample.server.OrderHandler;
 import edu.brown.cs32.examples.moshiExample.soup.Soup;
+import java.util.HashMap;
 import okio.Buffer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,6 +17,7 @@ import spark.Spark;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -71,12 +73,12 @@ public class TestSoupAPIHandlers {
      * need to replace the reference itself. We clear this state out after every test runs.
      */
 
-    final Set<Soup> menu = new HashSet<>();
+    final Map<String,Soup> menu = new HashMap<>();
 
     @BeforeEach
     public void setup() {
         // Re-initialize state, etc. for _every_ test method run
-        menu.clear();
+        this.menu.clear();
 
         // In fact, restart the entire Spark server for every test!
         Spark.get("/order", new OrderHandler(menu));
