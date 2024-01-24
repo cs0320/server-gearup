@@ -54,10 +54,17 @@
       <artifactId>spark-core</artifactId>
       <version>2.9.3</version>
     </dependency>
-    <!-- This is a library that is requested by spark to assist in debug logging
-         This particular implementation suppresses a lot of the logging to avoid
-         clogging the console.
-         -->
+    <!--TODO: Attempt to remove SLF4J error but idk-->
+<!--    <dependency>-->
+<!--      <groupId>org.slf4j</groupId>-->
+<!--      <artifactId>slf4j-api</artifactId>-->
+<!--      <version>2.0.7</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.slf4j</groupId>-->
+<!--      <artifactId>slf4j-simple</artifactId>-->
+<!--      <version>2.0.7</version>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-nop</artifactId>
@@ -206,7 +213,7 @@
         </executions>
       </plugin>
 
-      <!-- Without this, Maven will not run_gpt JUnit tests with
+      <!-- Without this, Maven will not run JUnit tests with
                  JUnit, and we'll lack @BeforeAll/@BeforeEach/etc.
               -->
       <!-- The Surefire Plugin is used during the test phase of
@@ -240,7 +247,7 @@
         </executions>
       </plugin>
 
-      <!--TODO: may want to be removed/reconfigured? Runs the Main file -->
+      <!--TODO: may want to be removed?      -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>

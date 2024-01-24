@@ -43,7 +43,7 @@ Carrots and hot peppers both have `amount` fields. Hot peppers also have a `scov
 
 ## Running 
 
-You can run the example by executing the `Server` class `main` method. This starts up a real webserver on your computer. By default, it's set to use port `3232`, so you should be able (while the server is running!) to send requests via `localhost:3232` in your browser. The endpoint is `order`, so `localhost:3232/order` will produce an order result (or an error).
+You can run the example by executing the `edu.brown.cs.examples.moshiExample.server.Server` class `main` method. This starts up a real webserver on your computer. By default, it's set to use port `3232`, so you should be able (while the server is running!) to send requests via `localhost:3232` in your browser. The endpoint is `order`, so `localhost:3232/order` will produce an order result (or an error).
 
 There are also two test classes.
 
@@ -51,7 +51,7 @@ There are also two test classes.
 
 ### Run and Query
 
-Run the `Server` and confirm that you are able to make web queries from your browser. 
+Run the `edu.brown.cs.examples.moshiExample.server.Server` and confirm that you are able to make web queries from your browser. 
 
 ### Modification
 
@@ -63,7 +63,7 @@ Remember also that you're allowed to modify this code, but you shouldn't need to
 
 ### Testing
 
-What other integration tests should have been written in the `edu.brown.cs32.examples.moshiExample.TestSoupAPIHandlers` class?
+What other integration tests should have been written in the `edu.brown.cs.examples.moshiExample.TestSoupAPIHandlers` class?
 
 Add at least one. 
 

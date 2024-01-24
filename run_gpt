@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Specify the path to your Java source file
+MAIN_FILE="src/main/java/edu/brown/cs/examples/moshiExample/server/Server.java"
+
+# Check if the source file exists
+if [ ! -f "$MAIN_FILE" ]; then
+  echo "Error: Server.java not found at $MAIN_FILE"
+  exit 1
+fi
+
+# Build the project using Maven
+mvn clean package
+
+# Check if the build was successful
+if [ $? -ne 0 ]; then
+  echo "Error: Maven build failed"
+  exit 1
+fi
+
+# Set the classpath with Spark and Moshi dependencies
+SPARK_CP=$(mvn -q dependency:build-classpath -Dmdep.outputFile=- -pl spark-module)
+CP=$(mvn -q dependency:build-classpath -Dmdep.outputFile=-)
+
+# Run the Java program with the correct classpath
+java -cp "target/*:$CP:$SPARK_CP" edu.brown.cs.examples.moshiExample.server.Server "$@"
