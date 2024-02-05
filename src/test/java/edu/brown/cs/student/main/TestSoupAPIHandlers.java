@@ -8,7 +8,9 @@ import edu.brown.cs.student.main.soup.Soup;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +67,7 @@ public class TestSoupAPIHandlers {
    * Shared state for all tests. We need to be able to mutate it (adding recipes etc.) but never
    * need to replace the reference itself. We clear this state out after every test runs.
    */
-  final Map<String, Soup> menu = new HashMap<>();
+  final List<Soup> menu = new ArrayList<>();
 
   @BeforeEach
   public void setup() {

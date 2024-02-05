@@ -26,21 +26,6 @@ We're building an application that cooks recipes automatically. Since this is an
 The application is an API server that responds to "order" requests. The response is a serialized set of ingredients. In its current form, the response is always an arbitrary recipe (if any exists). If no
 recipe exists, the server replies with an error response. 
 
-#### Ingredients
-
-Ingredients are Json objects. They _always_ have a "type" field, which indicates the type of ingredient (e.g. "carrots"). Other fields can vary depending on what kind of ingredient it is.
-
-```json
-{
-  "type": ...,
-  ...
-}
-```
-
-In this demo, the `type` field is either `carrots` or `hotpeppers`. 
-
-Carrots and hot peppers both have `amount` fields. Hot peppers also have a `scovilles` field, which measures their spiciness. Each type of ingredient defines its own custom method for adding it to the soup. In our demo, the rule for hot peppers is that, if the chef is timid, they can't be too hot. 
-
 ## Running 
 
 You can run the example by executing the `server.edu.brown.cs.student.main.Server` class `main` method. This starts up a real webserver on your computer. By default, it's set to use port `3232`, so you should be able (while the server is running!) to send requests via `localhost:3232` in your browser. The endpoint is `order`, so `localhost:3232/order` will produce an order result (or an error).

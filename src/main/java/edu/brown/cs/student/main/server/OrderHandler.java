@@ -5,6 +5,7 @@ import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.soup.Soup;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -16,21 +17,25 @@ import spark.Route;
  * basic GET request with no Json body, and returns a Json object in reply. The responses are more
  * complex, but this should serve as a reference.
  */
+// TODO 2: Check out this Handler. What does it do right now? How is the menu formed (deserialized)?
 public class OrderHandler implements Route {
-  private final Map<String, Soup> menu;
+  private final List<Soup> menu;
 
   /**
    * Constructor accepts some shared state
    *
    * @param menu the shared state (note: we *DON'T* want to make a defensive copy here!
    */
-  public OrderHandler(Map<String, Soup> menu) {
+  public OrderHandler(List<Soup> menu) {
     this.menu = menu;
   }
 
   /**
    * Pick a convenient soup and make it. the most "convenient" soup is the first recipe we find in
    * the unordered set of recipe cards.
+   *
+   * NOTE: beware this "return Object" and "throws Exception" idiom. We need to follow it because
+   * the library uses it, but in general this lowers the protection of the type system.
    *
    * @param request the request to handle
    * @param response use to modify properties of the response
@@ -39,30 +44,26 @@ public class OrderHandler implements Route {
    */
   @Override
   public Object handle(Request request, Response response) throws Exception {
-    // TODO: 2) Right now, we only serialize the first soup, let's make it so you can choose which
-    // soup you want!
+    // TODO: 2) Right now, we only serialize the first soup, let's make it so you can choose which one you want!
     // Get Query parameters, can be used to make your search more specific
-    String soupname = request.queryParams("soupname");
-    // Initialize Moshi
-    for (Soup soup : this.menu.values()) {
-      // Just make the first soup
-      Map<String, Object> responseMap = new HashMap<>();
+    String soupname = request.queryParams("soupName");
+    // Initialize a map for our informative response.
+    Map<String, Object> responseMap = new HashMap<>();
+    // Iterate through the soups in the menu and return the first one
+    for (Soup soup : this.menu) {
       responseMap.put(soup.getSoupName(), soup);
-      responseMap.put("Num ingredients", soup.getIngredients().size());
+      responseMap.put("Number of  ingredients", soup.getIngredients().size());
       return new SoupSuccessResponse(responseMap).serialize();
-      // SOLUTION MIGHT LOOK LIKE
-      //            Soup foundSoup = this.menu.
-      //            return new SoupSuccessResponse(soupMap.put(soup.toString(),
-      // soup.ingredients())).serialize();
     }
     return new SoupNoRecipesFailureResponse().serialize();
-
-    // NOTE: beware this "return Object" and "throws Exception" idiom. We need to follow it because
-    //   the library uses it, but in general this lowers the protection of the type system.
   }
 
-  /** Ultimately up to you how you want to structure your success and failure responses, but they
-   * should be separate in some form!*/
+  /*
+   * Ultimately up to you how you want to structure your success and failure responses, but they
+   * should be separate in some form! We show one form here and another form in ActivityHandler and
+   * you are also free to do your own way!
+   */
+
   /** Response object to send, containing a soup with certain ingredients in it */
   public record SoupSuccessResponse(String response_type, Map<String, Object> responseMap) {
     public SoupSuccessResponse(Map<String, Object> responseMap) {

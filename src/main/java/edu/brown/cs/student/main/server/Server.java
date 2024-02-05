@@ -3,9 +3,9 @@ package edu.brown.cs.student.main.server;
 import static spark.Spark.after;
 
 import edu.brown.cs.student.main.soup.Soup;
-import java.util.HashMap;
+import edu.brown.cs.student.main.soup.SoupAPIUtilities;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import spark.Spark;
 
 /**
@@ -17,16 +17,10 @@ import spark.Spark;
  * functionality classes, etc. we could make sure they all had the same shared state.
  */
 public class Server {
+  // TODO 0: Read through this class and determine the shape of this project...
+  // What are the endpoints that we can access... What happens if you go to them?
   public static void main(String[] args) {
     int port = 3232;
-    Map<String, Soup> menu = new HashMap<>();
-    // TODO: Is there something wrong with this menu?
-    List<String> soup_ingredient =
-        List.of("onions", "beef broth", "thyme", "bay leaves", "French bread", "gruyere cheese");
-    Soup frenchOnion = new Soup(soup_ingredient);
-    // Soup frenchOnion = new Soup(false);
-    frenchOnion.setSoupName("french onion");
-    menu.put("French Onion", frenchOnion);
     Spark.port(port);
     /*
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
@@ -51,9 +45,19 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    // Setting up the handler for the GET /order and /mock endpoints
+    // Sets up data needed for the OrderHandler. You will likely not read from local JSON in this sprint
+    String menuAsJson = SoupAPIUtilities.readInJson("data/menu.json");
+    List<Soup> menu = new ArrayList<>();
+    try{
+      menu = SoupAPIUtilities.deserializeMenu(menuAsJson);
+    }catch(Exception e){
+      e.printStackTrace();
+      System.err.println("Errored while deserializing the menu");
+    }
+
+    // Setting up the handler for the GET /order and /activity endpoints
     Spark.get("order", new OrderHandler(menu));
-    Spark.get("mock", new MockHandler());
+    Spark.get("activity", new ActivityHandler());
     Spark.init();
     Spark.awaitInitialization();
 

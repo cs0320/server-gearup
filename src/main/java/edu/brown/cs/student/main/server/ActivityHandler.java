@@ -1,11 +1,15 @@
 package edu.brown.cs.student.main.server;
 
+import edu.brown.cs.student.main.activity.Activity;
+import edu.brown.cs.student.main.activity.ActivityAPIUtilities;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import spark.Request;
 import spark.Response;
@@ -13,13 +17,16 @@ import spark.Route;
 
 /**
  * This class is used to illustrate how to build and send a GET request then prints the response.
+ * It will also demonstrate a simple Moshi deserialization from online data.
  *
- * <p>Check out the rest of the gearup for an exercise on how to parse the response and deserialize
+ * Check out the rest of the gearup for an exercise on how to parse the response and deserialize
  * it into an object.
  *
- * TODO: also want to use this to show how to deserialize into data
+ *
  */
-public class MockHandler implements Route {
+// TODO 1: Check out this Handler. How can we make it only get activities based on participant #?
+// See Documentation here: https://www.boredapi.com/documentation
+public class ActivityHandler implements Route {
 
   /**
    * This handle method needs to be filled by any class implementing Route. When the path set in
@@ -31,7 +38,7 @@ public class MockHandler implements Route {
    * @throws Exception
    */
   @Override
-  public Object handle(Request request, Response response) throws Exception {
+  public Object handle(Request request, Response response) {
     // If you are interested in how parameters are received, try commenting out and
     // printing these lines! Notice that requesting a specific parameter requires that parameter
     // to be fulfilled.
@@ -40,20 +47,27 @@ public class MockHandler implements Route {
     // ex. http://localhost:3232/mock?test=name
 
     Set<String> params = request.queryParams();
-    String testParam = request.queryParams("test");
+    String testParam = request.queryParams("participants");
+    Map<String, Object> responseMap = new HashMap<>();
+    try{
+      String activityJson = this.sendRequest();
 
-    this.buildArbitraryRequest();
-
-    // Where does this String lead? Note that you might not always want to print a success message.
-    // Spark's error handling is pretty constrained... An important part of this sprint will be in
-    // learning to debug correctly by creating your own informative error messages where Spark falls
-    // short
-    return "Fulfilled";
+      Activity activity = ActivityAPIUtilities.deserializeActivity(activityJson);
+      responseMap.put("result", "success");
+      responseMap.put("activity", activity);
+    }catch(Exception e){
+      // This is a relatively unhelpful exception message. An important part of this sprint will be in
+      // learning to debug correctly by creating your own informative error messages where Spark falls
+      // short.
+      responseMap.put("result", "Exception");
+    }
+    return responseMap;
   }
 
-  private void buildArbitraryRequest()
+  private String sendRequest()
       throws URISyntaxException, IOException, InterruptedException {
     // Build a request to this BoredAPI. Try out this link in your browser, what do you see?
+    // TODO 1: Looking at the documentation, how can we add to the URI to query based on participant number?
     HttpRequest buildBoredApiRequest =
         HttpRequest.newBuilder()
             .uri(new URI("http://www.boredapi.com/api/activity/"))
@@ -66,8 +80,12 @@ public class MockHandler implements Route {
             .build()
             .send(buildBoredApiRequest, HttpResponse.BodyHandlers.ofString());
 
-    // What's the difference between these two lines?
+    // What's the difference between these two lines? Why do we return the body? What is useful from
+    // the raw response (hint: how can we use the status of response)?
     System.out.println(sentBoredApiResponse);
     System.out.println(sentBoredApiResponse.body());
+
+    return sentBoredApiResponse.body();
   }
+
 }
