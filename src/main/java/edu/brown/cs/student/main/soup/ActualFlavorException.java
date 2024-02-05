@@ -1,4 +1,4 @@
-package edu.brown.cs.examples.moshiExample.soup;
+package edu.brown.cs.student.main.soup;
 
 /**
  * Prevent adding an ingredient because it would be a terrible idea. The name comes from the fact

@@ -1,8 +1,8 @@
-package edu.brown.cs.examples.moshiExample.server;
+package edu.brown.cs.student.main.server;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import edu.brown.cs.examples.moshiExample.soup.Soup;
+import edu.brown.cs.student.main.soup.Soup;
 import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
@@ -41,15 +41,17 @@ public class OrderHandler implements Route {
   public Object handle(Request request, Response response) throws Exception {
     // TODO: 2) Right now, we only serialize the first soup, let's make it so you can choose which
     // soup you want!
+    // Get Query parameters, can be used to make your search more specific
     String soupname = request.queryParams("soupname");
+    // Initialize Moshi
     for (Soup soup : this.menu.values()) {
       // Just make the first soup
-      Map<String, Soup> soupMap = new HashMap<>();
-      soupMap.put(soup.getSoupName(), soup);
-
+      Map<String, Object> responseMap = new HashMap<>();
+      responseMap.put(soup.getSoupName(), soup);
+      responseMap.put("Num ingredients", soup.getIngredients().size());
+      return new SoupSuccessResponse(responseMap).serialize();
       // SOLUTION MIGHT LOOK LIKE
       //            Soup foundSoup = this.menu.
-      return new SoupSuccessResponse(soupMap).serialize();
       //            return new SoupSuccessResponse(soupMap.put(soup.toString(),
       // soup.ingredients())).serialize();
     }
@@ -59,24 +61,37 @@ public class OrderHandler implements Route {
     //   the library uses it, but in general this lowers the protection of the type system.
   }
 
+  /** Ultimately up to you how you want to structure your success and failure responses, but they
+   * should be separate in some form!*/
   /** Response object to send, containing a soup with certain ingredients in it */
-  public record SoupSuccessResponse(String response_type, Map<String, Soup> soupMap) {
-    public SoupSuccessResponse(Map<String, Soup> soupMap) {
-      this("success", soupMap);
+  public record SoupSuccessResponse(String response_type, Map<String, Object> responseMap) {
+    public SoupSuccessResponse(Map<String, Object> responseMap) {
+      this("success", responseMap);
     }
     /**
      * @return this response, serialized as Json
      */
     String serialize() {
       try {
+
         // Just like in SoupAPIUtilities.
         //   (How could we rearrange these similar methods better?)
+
+        // Initialize Moshi which takes your complex type (in this case Map<String,Object> and turns
+        // it into JSON
         Moshi moshi = new Moshi.Builder().build();
+
+        //        // Creates a complex type (Map<String,Object)
+        //        Type type = Types.newParameterizedType(Map.class,
+        // Types.newParameterizedType(String.class, Object.class));
+
+        JsonAdapter<SoupSuccessResponse> adapter = moshi.adapter(SoupSuccessResponse.class);
         //                Type type = Types.newParameterizedType(List.class,
         // Types.newParameterizedType(List.class, String.class));
         //                Type newType =
         // Types.newParameterizedType(Map.class,String.class,Soup.class);
-        JsonAdapter<SoupSuccessResponse> adapter = moshi.adapter(SoupSuccessResponse.class);
+        //        JsonAdapter<SoupSuccessResponse> adapter =
+        // moshi.adapter(SoupSuccessResponse.class);
         return adapter.toJson(this);
       } catch (Exception e) {
         // For debugging purposes, show in the console _why_ this fails

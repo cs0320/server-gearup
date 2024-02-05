@@ -1,4 +1,4 @@
-package edu.brown.cs.examples.moshiExample.server;
+package edu.brown.cs.student.main.server;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,6 +16,8 @@ import spark.Route;
  *
  * <p>Check out the rest of the gearup for an exercise on how to parse the response and deserialize
  * it into an object.
+ *
+ * TODO: also want to use this to show how to deserialize into data
  */
 public class MockHandler implements Route {
 

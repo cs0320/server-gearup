@@ -1,4 +1,4 @@
-package edu.brown.cs.examples.moshiExample.soup;
+package edu.brown.cs.student.main.soup;
 
 import java.util.*;
 

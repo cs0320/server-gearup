@@ -1,8 +1,8 @@
-package edu.brown.cs.examples.moshiExample.server;
+package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
 
-import edu.brown.cs.examples.moshiExample.soup.Soup;
+import edu.brown.cs.student.main.soup.Soup;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,6 @@ public class Server {
     Spark.awaitInitialization();
 
     // Notice this link alone leads to a 404... Why is that?
-    System.out.println(
-        "edu.brown.cs.examples.moshiExample.server.Server started at http://localhost:" + port);
+    System.out.println("Server started at http://localhost:" + port);
   }
 }

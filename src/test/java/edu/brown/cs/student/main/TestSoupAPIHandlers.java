@@ -1,10 +1,10 @@
-package edu.brown.cs.examples.moshiExample;
+package edu.brown.cs.student.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.squareup.moshi.Moshi;
-import edu.brown.cs.examples.moshiExample.server.OrderHandler;
-import edu.brown.cs.examples.moshiExample.soup.Soup;
+import edu.brown.cs.student.main.server.OrderHandler;
+import edu.brown.cs.student.main.soup.Soup;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;

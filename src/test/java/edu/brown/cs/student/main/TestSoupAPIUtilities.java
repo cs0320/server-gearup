@@ -1,4 +1,4 @@
-package edu.brown.cs.examples.moshiExample;
+package edu.brown.cs.student.main;
 
 // import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
 // import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
