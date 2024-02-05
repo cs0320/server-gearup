@@ -10,11 +10,12 @@ import spark.Spark;
 
 /**
  * Top-level class for this demo. Contains the main() method which starts Spark and runs the various
- * handlers.
- *
- * <p>We have two endpoints in this demo. They need to share state (a menu). This is a great chance
- * to use dependency injection, as we do here with the menu set. If we needed more endpoints, more
- * functionality classes, etc. we could make sure they all had the same shared state.
+ * handlers (2).
+ * <p>
+ * Notice that the OrderHandler takes in a state (menu) that can be shared if we extended the restaurant
+ * They need to share state (a menu). This would be a great opportunity to use dependency injection.
+ * If we needed more endpoints, more functionality classes, etc. we could make sure they all had
+ * the same shared state.
  */
 public class Server {
   // TODO 0: Read through this class and determine the shape of this project...

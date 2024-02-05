@@ -4,16 +4,12 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
-import edu.brown.cs.student.main.soup.ActualFlavorException;
-import edu.brown.cs.student.main.soup.Soup;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class contains utility methods for handling soup objects and Json-encoded soup objects.
@@ -26,9 +22,6 @@ import java.util.Map;
  * This class shows how to deserialize into complex types.
  */
 public class SoupAPIUtilities {
-  /**
-   *
-   */
   private SoupAPIUtilities() {}
 
   /**
@@ -46,7 +39,7 @@ public class SoupAPIUtilities {
    * @return the Soup object
    */
   public static Soup deserializeSoup(String jsonList)
-      throws JsonDataException, IOException, ActualFlavorException {
+      throws JsonDataException, IOException {
 
     // Create an adapter to read the json string (hopefully) into a Soup object.
     Moshi moshi = new Moshi.Builder().build();
@@ -64,15 +57,10 @@ public class SoupAPIUtilities {
     try {
       List<String> recipe = recipeAdapter.fromJson(jsonList);
       // In the beginning, the soup is empty. There's nothing in the pot.
-      Soup result = new Soup(recipe);
+      Soup result = new Soup("new soup",recipe, true);
 
       // I suppose we'd better actually add the ingredients to the soup, too.
       for (String ingredient : recipe) {
-        // We could stir the ingredients into the soup like this:
-        // result.stirIn(i);
-        // but doing that would skip the checking we've implemented in the ingredient classes.
-        // Instead:
-        //                ingredient.add(result);
         result.stirIn(ingredient);
       }
       return result;
@@ -83,9 +71,6 @@ public class SoupAPIUtilities {
       System.err.println("SoupHandler: string wasn't valid JSON.");
       throw e;
     } catch (JsonDataException e) {
-      // Note that JsonDataException extends *RuntimeException* -- it's unchecked! I like to add it
-      // to the
-      // "throws" clause anyway, for the sake of documentation.
       // In a real system, we wouldn't println like this, but it's useful for demonstration:
       System.err.println("SoupHandler: JSON wasn't an ingredient.");
       throw e;
@@ -94,8 +79,7 @@ public class SoupAPIUtilities {
 
   /**
    * Serializes the ingredients in a bowl soup into a Json object for sending across the 'net. The
-   * result does not include the chef's timidity or any other soup properties---we're just sending
-   * the ingredients.
+   * result does not include any  soup properties---we're just sending the ingredients.
    *
    * @param soup The soup to serialize into a String
    * @return the serialized Json list representing the ingredients

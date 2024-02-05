@@ -44,7 +44,7 @@ public class OrderHandler implements Route {
    */
   @Override
   public Object handle(Request request, Response response) throws Exception {
-    // TODO: 2) Right now, we only serialize the first soup, let's make it so you can choose which one you want!
+    // TODO 2: Right now, we only serialize the first soup, let's make it so you can choose which one you want!
     // Get Query parameters, can be used to make your search more specific
     String soupname = request.queryParams("soupName");
     // Initialize a map for our informative response.
@@ -60,8 +60,8 @@ public class OrderHandler implements Route {
 
   /*
    * Ultimately up to you how you want to structure your success and failure responses, but they
-   * should be separate in some form! We show one form here and another form in ActivityHandler and
-   * you are also free to do your own way!
+   * should be distinguishable in some form! We show one form here and another form in ActivityHandler
+   * and you are also free to do your own way!
    */
 
   /** Response object to send, containing a soup with certain ingredients in it */
@@ -74,25 +74,9 @@ public class OrderHandler implements Route {
      */
     String serialize() {
       try {
-
-        // Just like in SoupAPIUtilities.
-        //   (How could we rearrange these similar methods better?)
-
-        // Initialize Moshi which takes your complex type (in this case Map<String,Object> and turns
-        // it into JSON
+        // Initialize Moshi which takes in this class and returns it as JSON!
         Moshi moshi = new Moshi.Builder().build();
-
-        //        // Creates a complex type (Map<String,Object)
-        //        Type type = Types.newParameterizedType(Map.class,
-        // Types.newParameterizedType(String.class, Object.class));
-
         JsonAdapter<SoupSuccessResponse> adapter = moshi.adapter(SoupSuccessResponse.class);
-        //                Type type = Types.newParameterizedType(List.class,
-        // Types.newParameterizedType(List.class, String.class));
-        //                Type newType =
-        // Types.newParameterizedType(Map.class,String.class,Soup.class);
-        //        JsonAdapter<SoupSuccessResponse> adapter =
-        // moshi.adapter(SoupSuccessResponse.class);
         return adapter.toJson(this);
       } catch (Exception e) {
         // For debugging purposes, show in the console _why_ this fails
@@ -104,7 +88,7 @@ public class OrderHandler implements Route {
     }
   }
 
-  /** Response object to send if someone requested soup before any recipes were loaded */
+  /** Response object to send if someone requested soup from an empty Menu*/
   public record SoupNoRecipesFailureResponse(String response_type) {
     public SoupNoRecipesFailureResponse() {
       this("error");

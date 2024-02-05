@@ -5,28 +5,41 @@ import java.util.*;
 /**
  * A state container for this demo. In the soup-making story, this class is a pot of soup. The soup
  * may not be entirely finished (indeed, it's often tempting to add more things to a pot of soup).
- * The effects of adding new ingredients to the soup are implemented in the ingredients themselves.
  *
  * <p>For the sake of this demo, we'll keep the soup state relatively simple.
  */
 public class Soup {
-  /**
-   * Internal container for how much of each ingredient the soup contains right now.
-   *
-   * <p>Note: making the field `final` only keeps us from overwriting the List itself, *not* its
-   * contents!
-   */
-  // Notice how each of the fields match the JSON properties exactly... This IS case-sensitive!
+  // Note: Each of the fields match the JSON properties exactly... Moshi IS case-sensitive!
   private String soupName;
+  // Note: we make the field 'final' to keep us from overwriting the List itself, not its contents!
   private final List<String> ingredients = new ArrayList<>();
   private boolean isHot;
 
 
-
+  /**
+   * Constructs a soup with just ingredients... Recipe is still a WIP I suppose...
+   * @param ingredients
+   */
   public Soup(List<String> ingredients) {
     this.ingredients.addAll(ingredients);
   }
 
+  /**
+   * Constructs a full soup! A tried and true recipe that has been past down!
+   * @param soupName
+   * @param ingredients
+   * @param isHot
+   */
+  public Soup(String soupName, List<String> ingredients, boolean isHot) {
+    this.soupName = soupName;
+    this.ingredients.addAll(ingredients);
+    this.isHot = isHot;
+  }
+
+  /**
+   * Adds ingredients to the soup!
+   * @param ingredient
+   */
   public void stirIn(String ingredient) {
     this.ingredients.add(ingredient);
   }
@@ -59,11 +72,16 @@ public class Soup {
   public static Soup buildNoExceptions(String name, List<String> ingredients) {
     Soup result = new Soup(ingredients);
     result.setSoupName(name);
-    //    for(String i: ingredients)
-    //        result.stirIn(i);
+    for(String i: ingredients) {
+      result.stirIn(i);
+    }
     return result;
   }
 
+  /**
+   * Override the toString to be a little more informative.
+   * @return
+   */
   @Override
   public String toString() {
     if (this.isHot){

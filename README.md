@@ -65,3 +65,8 @@ You can deserialize a Json object into a Java object with fewer fields. E.g., if
 ```
 
 You can deserialize this into an object with only `"A"` and `"B"` fields. This is useful when processing very large, verbose response Json from other APIs, but only need a few fields. 
+
+# TODOS
+0 checkout the whole project
+1 checkout ActivityHandler, inspect how HTTP requests are made. How can you add specifications
+2 checkout OrderHandler, inspect how this more complex deserialization is done. How can you search for a Soup
