@@ -77,3 +77,11 @@ You can deserialize a Json object into a Java object with fewer fields. E.g., if
 ```
 
 You can deserialize this into an object with only `"A"` and `"B"` fields. This is useful when processing very large, verbose response Json from other APIs, but only need a few fields.
+
+## Note about SLF4J Error
+
+If you see the error below appear in your run console, you can feel free to ignore it. It is just warning you to use a more useful error logging tool (of which there are many that are used in industry), but we do not teach that in 32! If you are interested, you can learn more about logging [here](https://www.baeldung.com/java-logging-intro).
+
+`SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.`
