@@ -4,8 +4,8 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.soup.Soup;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -34,7 +34,7 @@ public class OrderHandler implements Route {
    * Pick a convenient soup and make it. the most "convenient" soup is the first recipe we find in
    * the unordered set of recipe cards.
    *
-   * NOTE: beware this "return Object" and "throws Exception" idiom. We need to follow it because
+   * <p>NOTE: beware this "return Object" and "throws Exception" idiom. We need to follow it because
    * the library uses it, but in general this lowers the protection of the type system.
    *
    * @param request the request to handle
@@ -44,7 +44,8 @@ public class OrderHandler implements Route {
    */
   @Override
   public Object handle(Request request, Response response) throws Exception {
-    // TODO 2: Right now, we only serialize the first soup, let's make it so you can choose which one you want!
+    // TODO 2: Right now, we only serialize the first soup, let's make it so you can choose which
+    // one you want!
     // Get Query parameters, can be used to make your search more specific
     String soupname = request.queryParams("soupName");
     // Initialize a map for our informative response.
@@ -88,7 +89,7 @@ public class OrderHandler implements Route {
     }
   }
 
-  /** Response object to send if someone requested soup from an empty Menu*/
+  /** Response object to send if someone requested soup from an empty Menu */
   public record SoupNoRecipesFailureResponse(String response_type) {
     public SoupNoRecipesFailureResponse() {
       this("error");

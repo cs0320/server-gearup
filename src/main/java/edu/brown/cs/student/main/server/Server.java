@@ -11,11 +11,11 @@ import spark.Spark;
 /**
  * Top-level class for this demo. Contains the main() method which starts Spark and runs the various
  * handlers (2).
- * <p>
- * Notice that the OrderHandler takes in a state (menu) that can be shared if we extended the restaurant
- * They need to share state (a menu). This would be a great opportunity to use dependency injection.
- * If we needed more endpoints, more functionality classes, etc. we could make sure they all had
- * the same shared state.
+ *
+ * <p>Notice that the OrderHandler takes in a state (menu) that can be shared if we extended the
+ * restaurant They need to share state (a menu). This would be a great opportunity to use dependency
+ * injection. If we needed more endpoints, more functionality classes, etc. we could make sure they
+ * all had the same shared state.
  */
 public class Server {
   // TODO 0: Read through this class and determine the shape of this project...
@@ -46,12 +46,15 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    // Sets up data needed for the OrderHandler. You will likely not read from local JSON in this sprint
+    // Sets up data needed for the OrderHandler. You will likely not read from local
+    // JSON in this sprint.
     String menuAsJson = SoupAPIUtilities.readInJson("data/menu.json");
     List<Soup> menu = new ArrayList<>();
-    try{
+    try {
       menu = SoupAPIUtilities.deserializeMenu(menuAsJson);
-    }catch(Exception e){
+    } catch (Exception e) {
+      // See note in ActivityHandler about this broad Exception catch... Unsatisfactory, but gets
+      // the job done in the gearup where it is not the focus.
       e.printStackTrace();
       System.err.println("Errored while deserializing the menu");
     }
