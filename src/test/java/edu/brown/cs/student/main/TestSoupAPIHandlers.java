@@ -3,13 +3,17 @@ package edu.brown.cs.student.main;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.squareup.moshi.Moshi;
+import edu.brown.cs.student.main.server.ActivityHandler;
 import edu.brown.cs.student.main.server.OrderHandler;
 import edu.brown.cs.student.main.soup.Soup;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import okio.Buffer;
@@ -41,7 +45,6 @@ public class TestSoupAPIHandlers {
 
   @BeforeAll
   public static void setup_before_everything() {
-
     // Set the Spark port number. This can only be done once, and has to
     // happen before any route maps are added. Hence using @BeforeClass.
     // Setting port 0 will cause Spark to use an arbitrary available port.
@@ -69,19 +72,21 @@ public class TestSoupAPIHandlers {
 
   @BeforeEach
   public void setup() {
-    // Re-initialize state, etc. for _every_ test method run_gpt
+    // Re-initialize state, etc. for _every_ test method run
     this.menu.clear();
 
     // In fact, restart the entire Spark server for every test!
-    Spark.get("/order", new OrderHandler(menu));
+    Spark.get("order", new OrderHandler(menu));
+    Spark.get("activity", new ActivityHandler());
     Spark.init();
     Spark.awaitInitialization(); // don't continue until the server is listening
   }
 
   @AfterEach
   public void teardown() {
-    // Gracefully stop Spark listening on both endpoints
-    Spark.unmap("/order");
+    // Gracefully stop Spark listening on both endpoints after each test
+    Spark.unmap("order");
+    Spark.unmap("activity");
     Spark.awaitStop(); // don't proceed until the server is stopped
   }
 
@@ -100,7 +105,7 @@ public class TestSoupAPIHandlers {
 
     // The default method is "GET", which is what we're using here.
     // If we were using "POST", we'd need to say so.
-    // clientConnection.setRequestMethod("GET");
+    clientConnection.setRequestMethod("GET");
 
     clientConnection.connect();
     return clientConnection;
@@ -130,38 +135,39 @@ public class TestSoupAPIHandlers {
     clientConnection.disconnect();
   }
 
-  //   @Test
+     @Test
   // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type
   // checker
-  //   public void testAPIOneRecipe() throws IOException {
-  //
-  //    //    menu.add(Soup.buildNoExceptions();
-  //       menu.put(Soup.buildNoExceptions("Carrot",Arrays.asList("carrot", "onion", "celery",
-  // "garlic", "ginger", "vegetable broth")));
-  //
-  //       HttpURLConnection clientConnection = tryRequest("order");
-  //       // Get an OK response (the *connection* worked, the *API* provides an error response)
-  //       assertEquals(200, clientConnection.getResponseCode());
-  //
-  //       // Now we need to see whether we've got the expected Json response.
-  //       // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
-  //       // NOTE:   (How could we reduce the code repetition?)
-  //       Moshi moshi = new Moshi.Builder().build();
-  //       // NOTE: We're using a lot of raw strings here. What could we do about that?
-  //
-  //       // We'll use okio's Buffer class here
-  //    //    System.out.println(clientConnection.getInputStream());
-  //       OrderHandler.SoupSuccessResponse response =
-  //               moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new
-  // Buffer().readFrom(clientConnection.getInputStream()));
-  //
-  //        // JSONObject jsonObject = new JSONObject(response);
-  //        System.out.println(response);
-  //    //    // ^ If that succeeds, we got the expected response. But we should also check the
-  // ingredients
-  //       assertEquals(Arrays.asList("carrot", "onion", "celery", "garlic", "ginger", "vegetable
-  // broth"), response.soupMap());
-  //
-  //       clientConnection.disconnect();
-  //   }
+     public void testAPIOneRecipe() throws IOException {
+
+      //    menu.add(Soup.buildNoExceptions();
+       menu.add(Soup.buildNoExceptions("Carrot", Arrays.asList("carrot", "onion", "celery",
+           "garlic", "ginger", "vegetable broth")));
+
+       HttpURLConnection clientConnection = tryRequest("order");
+       // Get an OK response (the *connection* worked, the *API* provides an error response)
+       assertEquals(200, clientConnection.getResponseCode());
+
+       // Now we need to see whether we've got the expected Json response.
+       // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
+       // NOTE:   (How could we reduce the code repetition?)
+       Moshi moshi = new Moshi.Builder().build();
+
+       // We'll use okio's Buffer class here
+       System.out.println(clientConnection.getInputStream());
+         OrderHandler.SoupSuccessResponse response =
+                 moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new
+   Buffer().readFrom(clientConnection.getInputStream()));
+
+//           JSONObject jsonObject = new JSONObject(response);
+//       System.out.println(response);
+      //    // ^ If that succeeds, we got the expected response. But we should also check the
+//   ingredients
+       Soup carrot = new Soup("Carrot", Arrays.asList("carrot", "onion", "celery",
+           "garlic" , "ginger", "vegetable broth"), false);
+       Map<String, Object> result = (Map<String, Object>) response.responseMap().get("Carrot");
+       System.out.println(result.get("ingredients"));
+       assertEquals(carrot.getIngredients(), result.get("ingredients"));
+       clientConnection.disconnect();
+     }
 }

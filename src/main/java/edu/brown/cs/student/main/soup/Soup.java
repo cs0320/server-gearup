@@ -74,9 +74,6 @@ public class Soup {
   public static Soup buildNoExceptions(String name, List<String> ingredients) {
     Soup result = new Soup(ingredients);
     result.setSoupName(name);
-    for (String i : ingredients) {
-      result.stirIn(i);
-    }
     return result;
   }
 

@@ -13,7 +13,7 @@ It should contain most of the programmatic reference you need to do Sprint 2. E.
 
 However, keep in mind that this code isn't _exactly_ what you need for Sprint 2. We expect you to use this as a reference, but not to borrow too heavily (you'll need to work with different types of JSON response, requests, etc.).
 
-Historical note: 0320 had previously used Gson for serializing/deserializing Json, but Gson seems to now be in maintainance mode, and doesn't support records well. So we switched starting in Fall 2022.
+Historical note: 0320 had previously used Gson for serializing/deserializing Json, but Gson seems to now be in maintenance mode, and doesn't support records well. So we switched starting in Fall 2022.
 
 ## Setup 
 
@@ -31,7 +31,7 @@ The idea generator works by providing any random idea for something to do today.
 
 You can run the example by executing the `server.edu.brown.cs.student.main.Server` class `main` method. This starts up a real webserver on your computer. By default, it's set to use port `3232`, so you should be able (while the server is running!) to send requests via `localhost:3232` in your browser. One endpoint is `order`, so `localhost:3232/order` will produce an order result (or an error). The other one is `activity` where `localhost:3232/activity` gives a random activity!
 
-In order to run the server, run `mvn package` in your terminal then `./run` (using Git Bash for Windows users). This will be the same as the first Sprint. Take notice when transferring this run sprint to your Sprint 2 implementation that the path of your Server class matches the path specified in the run script. Currently it is set to execute Server at `edu/brown/cs/student/main/server/Server`. Running through terminal will save a lot of computer resources (IntelliJ is pretty intensive!) in future sprints.
+In order to run the server, run `mvn package` in your terminal then `./run` (using Git Bash for Windows users). This will be the same as the first Sprint. Take notice when transferring this run sprint to your Sprint 2 implementation that the path of your Server class matches the path specified in the run script. Currently, it is set to execute Server at `edu/brown/cs/student/main/server/Server`. Running through terminal will save a lot of computer resources (IntelliJ is pretty intensive!) in future sprints.
 
 There are also two test classes! Check these out for an idea of a new shape of testing!
 
