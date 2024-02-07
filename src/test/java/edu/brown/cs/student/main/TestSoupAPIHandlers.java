@@ -139,8 +139,6 @@ public class TestSoupAPIHandlers {
   // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type
   // checker
      public void testAPIOneRecipe() throws IOException {
-
-      //    menu.add(Soup.buildNoExceptions();
        menu.add(Soup.buildNoExceptions("Carrot", Arrays.asList("carrot", "onion", "celery",
            "garlic", "ginger", "vegetable broth")));
 
@@ -157,12 +155,8 @@ public class TestSoupAPIHandlers {
        System.out.println(clientConnection.getInputStream());
          OrderHandler.SoupSuccessResponse response =
                  moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new
-   Buffer().readFrom(clientConnection.getInputStream()));
+                     Buffer().readFrom(clientConnection.getInputStream()));
 
-//           JSONObject jsonObject = new JSONObject(response);
-//       System.out.println(response);
-      //    // ^ If that succeeds, we got the expected response. But we should also check the
-//   ingredients
        Soup carrot = new Soup("Carrot", Arrays.asList("carrot", "onion", "celery",
            "garlic" , "ginger", "vegetable broth"), false);
        Map<String, Object> result = (Map<String, Object>) response.responseMap().get("Carrot");

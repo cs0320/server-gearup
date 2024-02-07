@@ -101,31 +101,20 @@ public class SoupAPIUtilities {
     // Create an adapter to read the json string (hopefully) into a Soup object.
     Moshi moshi = new Moshi.Builder().build();
 
-    // One more step is needed. We can't just use an adapter like this:
-    // JsonAdapter<Ingredient> ingredientAdapter = moshi.adapter(Ingredient.class).nonNull();
-    // ...because we're expecting a JSON *array* of ingredients. So we need a layer that handles the
-    // enclosing list.
-    Type listOfIngredientsType = Types.newParameterizedType(List.class, String.class);
-    // ...and pass it instead of List.class:
-    JsonAdapter<List<String>> recipeAdapter = moshi.adapter(listOfIngredientsType);
-    // ...and finally read the json string:
+    JsonAdapter<Soup> recipeAdapter = moshi.adapter(Soup.class);
+    // Finally read the json string:
     try {
-      List<String> recipe = recipeAdapter.fromJson(jsonList);
+      Soup recipe = recipeAdapter.fromJson(jsonList);
       // In the beginning, the soup is empty. There's nothing in the pot.
-      Soup result = new Soup("new soup", recipe, true);
 
-      // I suppose we'd better actually add the ingredients to the soup, too.
-      for (String ingredient : recipe) {
-        result.stirIn(ingredient);
-      }
-      return result;
+      return recipe;
     } catch (IOException e) {
       // In a real system, we wouldn't println like this, but it's useful for demonstration:
       System.err.println("SoupHandler: string wasn't valid JSON.");
       throw e;
     } catch (JsonDataException e) {
       // In a real system, we wouldn't println like this, but it's useful for demonstration:
-      System.err.println("SoupHandler: JSON wasn't an ingredient.");
+      System.err.println("SoupHandler: JSON didn't have the right fields.");
       throw e;
     }
   }
@@ -145,9 +134,8 @@ public class SoupAPIUtilities {
     Moshi moshi = new Moshi.Builder().build();
 
     // Uses a similar pattern but turns it toJson and returns it as a string
-    Type listOfIngredientsType = Types.newParameterizedType(List.class, String.class);
-    JsonAdapter<List<String>> adapter = moshi.adapter(listOfIngredientsType);
-    return adapter.toJson(soup.getIngredients());
+    JsonAdapter<Soup> adapter = moshi.adapter(Soup.class);
+    return adapter.toJson(soup);
   }
 
   /**

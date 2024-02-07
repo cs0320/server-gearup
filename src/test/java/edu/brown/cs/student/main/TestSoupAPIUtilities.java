@@ -1,10 +1,14 @@
 package edu.brown.cs.student.main;
 
-// import edu.brown.cs32.examples.moshiExample.ingredients.Carrots;
-// import edu.brown.cs32.examples.moshiExample.ingredients.HotPeppers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.brown.cs.student.main.soup.Soup;
+import edu.brown.cs.student.main.soup.SoupAPIUtilities;
+import java.io.IOException;
+import java.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test deserializing soup recipes
@@ -26,54 +30,29 @@ public class TestSoupAPIUtilities {
     // No setup
   }
 
-  //    @Test
-  //    public void testFrom_ValidIngredientsList() throws IOException, ActualFlavorException {
-  //        // Without special processing, JSON strings must use double quotes.
-  //        String mild = "[{\"type\": \"carrot\", \"amount\": 5}, " +
-  //                       "{\"type\": \"hotpeppers\", \"amount\": 1, \"scovilles\": 100}]";
-  //
-  //        // This might throw an IOException, but if so JUnit will mark the test as failed.
-  //        Soup soup = SoupAPIUtilities.fromJSON(mild, true);
-  //
-  //        assertEquals(2, soup.ingredients().size());
-  //    }
+  @Test
+  public void testFrom_ValidIngredientsList() throws IOException {
+    String chickenNoodle = "{\n"
+        + "    \"soupName\": \"chicken noodle\",\n"
+        + "    \"ingredients\": [\"chicken broth\", \"celery\", \"carrot\", \"onion\"],\n"
+        + "    \"isHot\": true\n"
+        + "  }";
+    Soup soup = SoupAPIUtilities.deserializeSoup(chickenNoodle);
+    // This might throw an IOException, but if so JUnit will mark the test as failed.
+    assertEquals(4, soup.getIngredients().size());
+  }
 
-  //    @Test
-  //    public void testFrom_TooSpicyIngredientsList() {
-  //        // Without special processing, JSON strings must use double quotes.
-  //        String hot = "[{\"type\": \"carrot\", \"amount\": 5}, {\"type\": \"hotpeppers\",
-  // \"amount\": 1, \"scovilles\": 90000}]";
-  //
-  //        // This *should* throw a flavor exception. Don't forget to wrap the offending statement
-  // in a function,
-  //        // or JUnit won't be able to detect the exception properly.
-  //        assertThrows(ActualFlavorException.class,
-  //                () -> SoupAPIUtilities.fromJSON(hot, true));
-  //    }
-
-  /**
-   * This saves some effort vs. repeating the code as in
-   * edu.brown.cs32.examples.moshiExample.TestSoupAPIHandlers.
-   *
-   * @return a freshly created Soup object containing matchstick carrots and very mild peppers.
-   */
-  //    static Soup mixFreshBowlTimid() {
-  //        return Soup.buildNoExceptions(true, Set.of(
-  //                new Carrots(Carrots.CarrotChopType.MATCHSTICK, 6.0),
-  //                new HotPeppers(1, 2.0)));
-  //    }
-
-  //    @Test
-  //    public void testTo_ValidSoup() throws ActualFlavorException, IOException {
-  //        Soup bowl = mixFreshBowlTimid();
-  //        String json = SoupAPIUtilities.toJson(bowl);
-  //        //System.out.println(json);
-  //        // Don't try to parse the string yourself to test it.
-  //        // Instead, use a Json library to look at the info provided.
-  //        Soup result = SoupAPIUtilities.fromJSON(json, true);
-  //        // This will FAIL if we don't define equals in Soup
-  //        assertEquals(bowl, result);
-  //        // If the above produces an exception, the JUnit test will fail.
-  //    }
+      @Test
+      public void testTo_ValidSoup() throws IOException {
+          Soup potato = new Soup("potato", Arrays.asList("potato", "water"), true);
+          String json = SoupAPIUtilities.serializeSoup(potato);
+          //System.out.println(json);
+          // Don't try to parse the string yourself to test it.
+          // Instead, use a Json library to look at the info provided.
+          Soup result = SoupAPIUtilities.deserializeSoup(json);
+          // This will FAIL if we don't define equals in Soup
+          assertEquals(potato, result);
+          // If the above produces an exception, the JUnit test will fail.
+      }
 
 }
