@@ -49,7 +49,7 @@ public class ActivityHandler implements Route {
     Map<String, Object> responseMap = new HashMap<>();
     try {
       // Sends a request to the API and receives JSON back
-      String activityJson = this.sendRequest();
+      String activityJson = this.sendRequest(Integer.parseInt(participants));
       // Deserializes JSON into an Activity
       Activity activity = ActivityAPIUtilities.deserializeActivity(activityJson);
       // Adds results to the responseMap
@@ -66,13 +66,13 @@ public class ActivityHandler implements Route {
     return responseMap;
   }
 
-  private String sendRequest() throws URISyntaxException, IOException, InterruptedException {
+  private String sendRequest(int participantNumber) throws URISyntaxException, IOException, InterruptedException {
     // Build a request to this BoredAPI. Try out this link in your browser, what do you see?
     // TODO 1: Looking at the documentation, how can we add to the URI to query based
     // on participant number?
     HttpRequest buildBoredApiRequest =
         HttpRequest.newBuilder()
-            .uri(new URI("http://www.boredapi.com/api/activity/"))
+            .uri(new URI("http://www.boredapi.com/api/activity?participants=" + participantNumber))
             .GET()
             .build();
 

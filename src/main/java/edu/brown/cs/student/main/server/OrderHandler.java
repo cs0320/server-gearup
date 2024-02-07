@@ -51,10 +51,13 @@ public class OrderHandler implements Route {
     // Initialize a map for our informative response.
     Map<String, Object> responseMap = new HashMap<>();
     // Iterate through the soups in the menu and return the first one
+
     for (Soup soup : this.menu) {
-      responseMap.put(soup.getSoupName(), soup);
-      responseMap.put("Number of  ingredients", soup.getIngredients().size());
-      return new SoupSuccessResponse(responseMap).serialize();
+      if (soup.getSoupName().equals(soupname)){
+        responseMap.put(soup.getSoupName(), soup);
+        responseMap.put("Number of  ingredients", soup.getIngredients().size());
+        return new SoupSuccessResponse(responseMap).serialize();
+      }
     }
     return new SoupNoRecipesFailureResponse().serialize();
   }
