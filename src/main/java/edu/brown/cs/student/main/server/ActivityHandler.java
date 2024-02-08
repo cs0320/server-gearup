@@ -68,7 +68,8 @@ public class ActivityHandler implements Route {
     return responseMap;
   }
 
-  private String sendRequest(int participantNumber) throws URISyntaxException, IOException, InterruptedException {
+  private String sendRequest(int participantNumber)
+      throws URISyntaxException, IOException, InterruptedException {
     // Build a request to this BoredAPI. Try out this link in your browser, what do you see?
     // TODO 1: Looking at the documentation, how can we add to the URI to query based
     // on participant number?

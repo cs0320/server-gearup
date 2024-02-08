@@ -53,9 +53,9 @@ public class OrderHandler implements Route {
     // Iterate through the soups in the menu and return the first one
 
     for (Soup soup : this.menu) {
-      if (soup.getSoupName().equals(soupname)){
+      if (soup.getSoupName().equals(soupname)) {
         responseMap.put(soup.getSoupName(), soup);
-        responseMap.put("Number of  ingredients", soup.getIngredients().size());
+        responseMap.put("Number of ingredients", soup.getIngredients().size());
         return new SoupSuccessResponse(responseMap).serialize();
       }
     }

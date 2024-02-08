@@ -11,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -110,6 +109,28 @@ public class TestSoupAPIHandlers {
     clientConnection.connect();
     return clientConnection;
   }
+  /**
+   * Helper to start a connection to a specific API endpoint/params
+   *
+   * @param apiCall the call string, including endpoint (NOTE: this would be better if it had more
+   *     structure!)
+   * @return the connection for the given URL, just after connecting
+   * @throws IOException if the connection fails for some reason
+   */
+  // Overload the tryRequest method to take in a soupName parameter
+  private static HttpURLConnection tryRequest(String apiCall, String soupName) throws IOException {
+    // Configure the connection (but don't actually send the request yet)
+    URL requestURL =
+        new URL("http://localhost:" + Spark.port() + "/" + apiCall + "?soupName=" + soupName);
+    HttpURLConnection clientConnection = (HttpURLConnection) requestURL.openConnection();
+
+    // The default method is "GET", which is what we're using here.
+    // If we were using "POST", we'd need to say so.
+    clientConnection.setRequestMethod("GET");
+
+    clientConnection.connect();
+    return clientConnection;
+  }
 
   @Test
   // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type
@@ -135,33 +156,40 @@ public class TestSoupAPIHandlers {
     clientConnection.disconnect();
   }
 
-     @Test
+  @Test
   // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type
   // checker
-     public void testAPIOneRecipe() throws IOException {
-       menu.add(Soup.buildNoExceptions("Carrot", Arrays.asList("carrot", "onion", "celery",
-           "garlic", "ginger", "vegetable broth")));
+  // NOTE: In solution, this is updated to match the new implementation of OrderHandler
+  public void testAPIOneRecipe() throws IOException {
+    menu.add(
+        Soup.buildNoExceptions(
+            "Carrot",
+            Arrays.asList("carrot", "onion", "celery", "garlic", "ginger", "vegetable broth")));
 
-       HttpURLConnection clientConnection = tryRequest("order");
-       // Get an OK response (the *connection* worked, the *API* provides an error response)
-       assertEquals(200, clientConnection.getResponseCode());
+    HttpURLConnection clientConnection = tryRequest("order", "Carrot");
+    // Get an OK response (the *connection* worked, the *API* provides an error response)
+    assertEquals(200, clientConnection.getResponseCode());
 
-       // Now we need to see whether we've got the expected Json response.
-       // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
-       // NOTE:   (How could we reduce the code repetition?)
-       Moshi moshi = new Moshi.Builder().build();
+    // Now we need to see whether we've got the expected Json response.
+    // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
+    // NOTE:   (How could we reduce the code repetition?)
+    Moshi moshi = new Moshi.Builder().build();
 
-       // We'll use okio's Buffer class here
-       System.out.println(clientConnection.getInputStream());
-         OrderHandler.SoupSuccessResponse response =
-                 moshi.adapter(OrderHandler.SoupSuccessResponse.class).fromJson(new
-                     Buffer().readFrom(clientConnection.getInputStream()));
-
-       Soup carrot = new Soup("Carrot", Arrays.asList("carrot", "onion", "celery",
-           "garlic" , "ginger", "vegetable broth"), false);
-       Map<String, Object> result = (Map<String, Object>) response.responseMap().get("Carrot");
-       System.out.println(result.get("ingredients"));
-       assertEquals(carrot.getIngredients(), result.get("ingredients"));
-       clientConnection.disconnect();
-     }
+    // We'll use okio's Buffer class here
+    System.out.println(clientConnection.getInputStream());
+    OrderHandler.SoupSuccessResponse response =
+        moshi
+            .adapter(OrderHandler.SoupSuccessResponse.class)
+            .fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+    System.out.println(response);
+    Soup carrot =
+        new Soup(
+            "Carrot",
+            Arrays.asList("carrot", "onion", "celery", "garlic", "ginger", "vegetable broth"),
+            false);
+    Map<String, Object> result = (Map<String, Object>) response.responseMap().get("Carrot");
+    System.out.println(response.responseMap());
+    assertEquals(carrot.getIngredients(), result.get("ingredients"));
+    clientConnection.disconnect();
+  }
 }
