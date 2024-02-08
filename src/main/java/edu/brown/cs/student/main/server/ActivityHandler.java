@@ -49,6 +49,8 @@ public class ActivityHandler implements Route {
     Map<String, Object> responseMap = new HashMap<>();
     try {
       // Sends a request to the API and receives JSON back
+      // Notice here we are trying to parse an Int, if what we get back doesn't make sense as an int
+      // it will throw an exception, which would probably be good to check!
       String activityJson = this.sendRequest(Integer.parseInt(participants));
       // Deserializes JSON into an Activity
       Activity activity = ActivityAPIUtilities.deserializeActivity(activityJson);
