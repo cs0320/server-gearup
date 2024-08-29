@@ -46,8 +46,7 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    // Sets up data needed for the OrderHandler. You will likely not read from local
-    // JSON in this sprint.
+    // Sets up data needed for the OrderHandler by reading from a local JSON.
     String menuAsJson = SoupAPIUtilities.readInJson("data/menu.json");
     List<Soup> menu = new ArrayList<>();
     try {

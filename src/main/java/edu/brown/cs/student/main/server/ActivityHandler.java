@@ -20,7 +20,7 @@ import spark.Route;
  * will also demonstrate a simple Moshi deserialization from online data.
  */
 // TODO 1: Check out this Handler. How can we make it only get activities based on participant #?
-// See Documentation here: https://www.boredapi.com/documentation
+// See Documentation here: https://bored-api.appbrewery.com/
 public class ActivityHandler implements Route {
   /**
    * This handle method needs to be filled by any class implementing Route. When the path set in
@@ -72,7 +72,7 @@ public class ActivityHandler implements Route {
     // on participant number?
     HttpRequest buildBoredApiRequest =
         HttpRequest.newBuilder()
-            .uri(new URI("http://www.boredapi.com/api/activity/"))
+            .uri(new URI("https://bored-api.appbrewery.com/filter"))
             .GET()
             .build();
 
