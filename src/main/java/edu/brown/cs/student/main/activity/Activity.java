@@ -9,12 +9,18 @@ public class Activity {
   private String type;
   private int participants;
   private double price;
-  private double accessibility;
+  private String key;
 
   public Activity() {}
 
-  @Override
-  public String toString() {
-    return this.activity + " with " + this.participants + " people.";
-  }
+//  @Override
+//  public String toString() {
+//    return this.activity + " with " + this.participants + " people.";
+//  }
+
+  // TODO 1.1: Replace the top function with this one below once you have modified the URI in TODO 1
+    @Override
+    public String toString() {
+    return "key " + this.key + " corresponds to this activity: " + this.activity;
+    }
 }
