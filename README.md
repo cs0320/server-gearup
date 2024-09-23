@@ -45,11 +45,11 @@ Take a minute to familiarize yourself with the project. Start at the entry point
 Run the `server.edu.brown.cs.student.main.Server` and confirm that you are able to make web queries from your browser. Visit the endpoints specified in `Server.java`. What do they return right now?
 
 ### Making HTTP requests
-See places labeled `TODO 1` in `ActivityHandler.java`. 
+See places labeled `TODO 1` in `ActivityHandler.java` and `TODO 1.1` in `Activity.java`.
 
 Try to find the places in the code that correspond to the Architecture Diagram Hunt from the slides. 
 
-Then, once you are familiar with the shape of the HTTP request, see if you can use the parameters of an Activity object and the different endpoints of the BoredAPI to narrow down your search a little bit. Perhaps you could search for activities for 2 participants or ones that are free!
+Then, once you are familiar with the shape of the HTTP request, see if you can use the parameters of an Activity object and the different endpoints of the BoredAPI to narrow down your search a little bit. Perhaps you could search for activities by their specific key!
 
 ### Handling and manipulating more complex data
 

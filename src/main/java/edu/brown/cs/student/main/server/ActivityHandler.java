@@ -19,8 +19,9 @@ import spark.Route;
  * This class is used to illustrate how to build and send a GET request then prints the response. It
  * will also demonstrate a simple Moshi deserialization from online data.
  */
-// TODO 1: Check out this Handler. How can we make it only get activities based on participant #?
-// See Documentation here: https://www.boredapi.com/documentation
+// TODO 1: Check out this Handler. How can we make it only get activities based on specific keys?
+// See Documentation here: https://bored-api.appbrewery.com
+
 public class ActivityHandler implements Route {
   /**
    * This handle method needs to be filled by any class implementing Route. When the path set in
@@ -39,11 +40,11 @@ public class ActivityHandler implements Route {
     // to be fulfilled.
     // If you specify a queryParam, you can access it by appending ?parameterName=name to the
     // endpoint
-    // ex. http://localhost:3232/activity?participants=num
+    // ex. http://localhost:3232/activity?key=num
     Set<String> params = request.queryParams();
     //     System.out.println(params);
-    String participants = request.queryParams("participants");
-    //     System.out.println(participants);
+    String key = request.queryParams("key");
+    //     System.out.println(key);
 
     // Creates a hashmap to store the results of the request
     Map<String, Object> responseMap = new HashMap<>();
@@ -68,13 +69,14 @@ public class ActivityHandler implements Route {
 
   private String sendRequest() throws URISyntaxException, IOException, InterruptedException {
     // Build a request to this BoredAPI. Try out this link in your browser, what do you see?
-    // TODO 1: Looking at the documentation, how can we add to the URI to query based
-    // on participant number?
+    // TODO 1: Looking at the documentation, how can we modify the URI to query based on specific activity keys?
+    // HINT: you will want to replace random with a different endpoint!
+    // TODO 1.1: complete the TODO in Activity.java
     HttpRequest buildBoredApiRequest =
-        HttpRequest.newBuilder()
-            .uri(new URI("http://www.boredapi.com/api/activity/"))
-            .GET()
-            .build();
+            HttpRequest.newBuilder()
+                    .uri(new URI("https://bored-api.appbrewery.com/random"))
+                    .GET()
+                    .build();
 
     // Send that API request then store the response in this variable. Note the generic type.
     HttpResponse<String> sentBoredApiResponse =
