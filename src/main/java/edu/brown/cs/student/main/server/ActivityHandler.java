@@ -44,13 +44,13 @@ public class ActivityHandler implements Route {
     Set<String> params = request.queryParams();
     //     System.out.println(params);
     String city = request.queryParams("city");
-    //     System.out.println(key);
+    //     System.out.println(city);
 
     // Creates a hashmap to store the results of the request
     Map<String, Object> responseMap = new HashMap<>();
     try {
       // Sends a request to the API and receives JSON back
-      String activityJson = this.sendRequest(city);
+      String activityJson = this.sendRequest();
       // Deserializes JSON into an Activity
       Activity activity = ActivityAPIUtilities.deserializeActivity(activityJson);
       // Adds results to the responseMap
@@ -67,14 +67,14 @@ public class ActivityHandler implements Route {
     return responseMap;
   }
 
-  private String sendRequest(String city) throws URISyntaxException, IOException, InterruptedException {
+  private String sendRequest() throws URISyntaxException, IOException, InterruptedException {
     // Build a request to this Weather API. Try out this link in your browser, what do you see?
     // TODO 1: Looking at the documentation, how can we modify the URI to query based on specific activity keys?
     // HINT: you will want to replace random with a different endpoint!
     // TODO 1.1: complete the TODO in Activity.java
     HttpRequest buildWeatherApiRequest =
             HttpRequest.newBuilder()
-                    .uri(new URI("https://goweather.herokuapp.com/weather/" + city))
+                    .uri(new URI("https://goweather.herokuapp.com/weather/Providence"))
                     .GET()
                     .build();
 
