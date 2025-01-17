@@ -74,7 +74,7 @@ public class ActivityHandler implements Route {
     // TODO 1.1: complete the TODO in Activity.java
     HttpRequest buildWeatherApiRequest =
             HttpRequest.newBuilder()
-                    .uri(new URI("https://goweather.herokuapp.com/weather/Providence"))
+                    .uri(new URI("https://api.tvmaze.com/search/shows?q=squid"))
                     .GET()
                     .build();
 
