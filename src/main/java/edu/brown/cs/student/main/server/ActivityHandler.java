@@ -43,14 +43,14 @@ public class ActivityHandler implements Route {
     // ex. http://localhost:3232/activity?key=num
     Set<String> params = request.queryParams();
     //     System.out.println(params);
-    String key = request.queryParams("key");
+    String city = request.queryParams("city");
     //     System.out.println(key);
 
     // Creates a hashmap to store the results of the request
     Map<String, Object> responseMap = new HashMap<>();
     try {
       // Sends a request to the API and receives JSON back
-      String activityJson = this.sendRequest();
+      String activityJson = this.sendRequest(city);
       // Deserializes JSON into an Activity
       Activity activity = ActivityAPIUtilities.deserializeActivity(activityJson);
       // Adds results to the responseMap
@@ -67,28 +67,28 @@ public class ActivityHandler implements Route {
     return responseMap;
   }
 
-  private String sendRequest() throws URISyntaxException, IOException, InterruptedException {
-    // Build a request to this BoredAPI. Try out this link in your browser, what do you see?
+  private String sendRequest(String city) throws URISyntaxException, IOException, InterruptedException {
+    // Build a request to this Weather API. Try out this link in your browser, what do you see?
     // TODO 1: Looking at the documentation, how can we modify the URI to query based on specific activity keys?
     // HINT: you will want to replace random with a different endpoint!
     // TODO 1.1: complete the TODO in Activity.java
-    HttpRequest buildBoredApiRequest =
+    HttpRequest buildWeatherApiRequest =
             HttpRequest.newBuilder()
-                    .uri(new URI("https://bored-api.appbrewery.com/random"))
+                    .uri(new URI("https://goweather.herokuapp.com/weather/" + city))
                     .GET()
                     .build();
 
     // Send that API request then store the response in this variable. Note the generic type.
-    HttpResponse<String> sentBoredApiResponse =
+    HttpResponse<String> sentWeatherApiResponse =
         HttpClient.newBuilder()
             .build()
-            .send(buildBoredApiRequest, HttpResponse.BodyHandlers.ofString());
+            .send(buildWeatherApiRequest, HttpResponse.BodyHandlers.ofString());
 
     // What's the difference between these two lines? Why do we return the body? What is useful from
     // the raw response (hint: how can we use the status of response)?
-    System.out.println(sentBoredApiResponse);
-    System.out.println(sentBoredApiResponse.body());
+    System.out.println(sentWeatherApiResponse);
+    System.out.println(sentWeatherApiResponse.body());
 
-    return sentBoredApiResponse.body();
+    return sentWeatherApiResponse.body();
   }
 }

@@ -5,17 +5,16 @@ package edu.brown.cs.student.main.activity;
  * there are a few fields that you could filter on if you wanted!
  */
 public class Activity {
-  private String activity;
-  private String type;
-  private int participants;
-  private double price;
-  private String key;
+  private String temperature;
+  private String wind;
+  private String description;
+  private Object forecast;
 
   public Activity() {}
 
   @Override
   public String toString() {
-    return this.activity + " with " + this.participants + " people.";
+    return "The temperature is " + this.temperature;
   }
 
   // TODO 1.1: Replace the top function with this one below once you have modified the URI in TODO 1
