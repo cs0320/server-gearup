@@ -2,8 +2,11 @@ package edu.brown.cs.student.main.television;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * This class shows a possible implementation of deserializing JSON from the TVMaze API into an
@@ -14,7 +17,7 @@ public class TVShowAPIUtilities {
   /**
    * Deserializes JSON from the TVMaze into an TVShow object.
    *
-   * @param jsonShow
+   * @param jsonTVShow
    * @return
    */
   public static TVShow deserializeTVShow(String jsonTVShow) {
@@ -22,11 +25,18 @@ public class TVShowAPIUtilities {
       // Initializes Moshi
       Moshi moshi = new Moshi.Builder().build();
 
-      // Initializes an adapter to TVShow class then uses it to parse the JSON.
-      JsonAdapter<TVShow> adapter = moshi.adapter(TVShow.class);
+      //Looking at the JSON response, we notice that the structure is a JSON array. In order to parse with moshi,
+      //we need to create a new parameterized type to deal with this list format. This is not necessary when the
+      //response is not a list of JSONs.
+      Type listType = Types.newParameterizedType(List.class, TVShowResponse.class);
 
-      TVShow show = adapter.fromJson(jsonTVShow);
+      // Create an adapter for the list of TVShowResponse
+      JsonAdapter<List<TVShowResponse>> adapter = moshi.adapter(listType);
 
+      // Parse the JSON into a list of TVShowResponse objects
+      List<TVShowResponse> showResponses = adapter.fromJson(jsonTVShow);
+
+      TVShow show = showResponses.get(0).show;
       return show;
     }
     // Returns an empty TVShow... Probably not the best handling of this error case...

@@ -62,6 +62,7 @@ public class Server {
     // Setting up the handler for the GET /order and /activity endpoints
     Spark.get("order", new OrderHandler(menu));
     Spark.get("show", new TVShowHandler());
+
     Spark.init();
     Spark.awaitInitialization();
 
