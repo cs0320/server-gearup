@@ -1,6 +1,5 @@
 package edu.brown.cs.student.main.server;
 
-import edu.brown.cs.student.main.activity.Activity;
 import edu.brown.cs.student.main.television.TVShow;
 import edu.brown.cs.student.main.television.TVShowAPIUtilities;
 
@@ -54,10 +53,11 @@ public class TVShowHandler implements Route {
       // Sends a request to the API and receives JSON back
       String showJson = this.sendRequest();
       // Deserializes JSON into an TVShow
-      TVShow show = TVShowAPIUtilities.deserializeActivity(showJson);
-      // Adds results to the responseMap
+      TVShow show = TVShowAPIUtilities.deserializeTVShow(showJson);
+      // Adds the data we care about to the responseMap
       responseMap.put("result", "success");
-      responseMap.put("activity", activity);
+      responseMap.put("name", show.name);
+      responseMap.put("summary", show.summary);
       return responseMap;
     } catch (Exception e) {
       e.printStackTrace();
@@ -70,27 +70,27 @@ public class TVShowHandler implements Route {
   }
 
   private String sendRequest() throws URISyntaxException, IOException, InterruptedException {
-    // Build a request to this Weather API. Try out this link in your browser, what do you see?
-    // TODO 1: Looking at the documentation, how can we modify the URI to query based on specific activity keys?
+    // Build a request to this TVMaze API. Try out this link in your browser, what do you see?
+    // TODO 1: Looking at the documentation, how can we modify the URI to search for shows based on a specific keyword that we specify?
     // HINT: you will want to replace random with a different endpoint!
-    // TODO 1.1: complete the TODO in Activity.java
-    HttpRequest buildWeatherApiRequest =
+    // TODO 1.1: complete the TODO in TVShow.java
+    HttpRequest buildTVShowApiRequest =
             HttpRequest.newBuilder()
-                    .uri(new URI("https://api.tvmaze.com/search/shows?q="))
+                    .uri(new URI("https://api.tvmaze.com/search/shows?q=squid"))
                     .GET()
                     .build();
 
     // Send that API request then store the response in this variable. Note the generic type.
-    HttpResponse<String> sentWeatherApiResponse =
+    HttpResponse<String> sentTVShowApiResponse =
         HttpClient.newBuilder()
             .build()
-            .send(buildWeatherApiRequest, HttpResponse.BodyHandlers.ofString());
+            .send(buildTVShowApiRequest, HttpResponse.BodyHandlers.ofString());
 
     // What's the difference between these two lines? Why do we return the body? What is useful from
     // the raw response (hint: how can we use the status of response)?
-    System.out.println(sentWeatherApiResponse);
-    System.out.println(sentWeatherApiResponse.body());
+    System.out.println(sentTVShowApiResponse);
+    System.out.println(sentTVShowApiResponse.body());
 
-    return sentWeatherApiResponse.body();
+    return sentTVShowApiResponse.body();
   }
 }

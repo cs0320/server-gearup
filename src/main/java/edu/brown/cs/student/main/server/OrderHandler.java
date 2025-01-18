@@ -47,7 +47,7 @@ public class OrderHandler implements Route {
     // TODO 2: Right now, we only serialize the first soup, let's make it so you can choose which
     // one you want!
     // Get Query parameters, can be used to make your search more specific
-    String soupname = request.queryParams("soupName");
+    String soupName = request.queryParams("soupName");
     // Initialize a map for our informative response.
     Map<String, Object> responseMap = new HashMap<>();
     // Iterate through the soups in the menu and return the first one
