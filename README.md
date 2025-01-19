@@ -76,6 +76,8 @@ You can deserialize a Json object into a Java object with fewer fields. E.g., if
 {
   "A": 1,
   "B": 2,
+  "C": 3,
+  "D": 4,
   ...
 }
 ```
