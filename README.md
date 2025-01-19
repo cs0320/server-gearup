@@ -3,7 +3,7 @@
 This is a rough example of:
 
 - using the Moshi Json library to serialize/deserialize; and
-- using the SparkJava library to run an API server.
+- using the Spring Boot library to run an API server.
 - making HTTP requests to external APIs.
 
 It should contain most of the programmatic reference you need to do Sprint 2. E.g.:
@@ -23,16 +23,16 @@ You'll need two dependencies for handling Json: `moshi` and `moshi-adapters`, bo
 
 ## Demo Framing
 
-We're building an application that serves two (disjointed) purposes: a functioning soup restaurant, and an [idea generator](https://www.youtube.com/watch?v=RtRg9BSGNMk&ab_channel=Deadaccount).
+We're building an application that serves two (disjointed) purposes: a functioning soup restaurant, and a TV Show Querier.
 
 The application is an API server that responds to "order" requests. The response is a serialized Soup. In its current form, the response always provides the first soup (if any exist). If no
 recipe exists, the server replies with an error response.
 
-The idea generator works by providing any random idea for something to do today. However, it's a little too unconstrained, so it's your job to narrow down the search a bit!
+The TV Show Querier should be given a keyword to search for and returns the show name and a brief summary. However, the current implementation is missing some of these aspects, so it's your job to improve the search a bit!
 
 ## Running
 
-You can run the example by executing the `server.edu.brown.cs.student.main.Server` class `main` method. This starts up a real webserver on your computer. By default, it's set to use port `3232`, so you should be able (while the server is running!) to send requests via `localhost:3232` in your browser. One endpoint is `order`, so `localhost:3232/order` will produce an order result (or an error). The other one is `weather` where `localhost:3232/weather` gives the weather for Providence!
+You can run the example by executing the `server.edu.brown.cs.student.main.Server` class `main` method. This starts up a real webserver on your computer. By default, it's set to use port `3232`, so you should be able (while the server is running!) to send requests via `localhost:3232` in your browser. One endpoint is `order`, so `localhost:3232/order` will produce an order result (or an error). The other one is `show` where `localhost:3232/show` gives the TV Show Squid Game!
 
 In order to run the server, run `mvn package` in your terminal then `./run` (using Git Bash for Windows users). This will be the same as the first Sprint. Take notice when transferring this run sprint to your Sprint 2 implementation that the path of your Server class matches the path specified in the run script. Currently, it is set to execute Server at `edu/brown/cs/student/main/server/Server`. Running through terminal will save a lot of computer resources (IntelliJ is pretty intensive!) in future sprints.
 
@@ -46,15 +46,15 @@ Take a minute to familiarize yourself with the project. Start at the entry point
 
 ### Run and Query
 
-Run the `server.edu.brown.cs.student.main.Server` and confirm that you are able to make web queries from your browser. Visit the endpoints specified in `Server.java`. What do they return right now?
+Run the `server.edu.brown.cs.student.main.Server` and confirm that you are able to make web queries from Postman. Visit the endpoints specified in `Server.java`. What do they return right now?
 
 ### Making HTTP requests
 
-See places labeled `TODO 1` in `WeatherHandler.java` and `TODO 1.1` in `Weather.java`.
+See places labeled `TODO 1.1` in `TVShowHandler.java` and `TODO 1.2` in `TVShow.java`.
 
 Try to find the places in the code that correspond to the Architecture Diagram Hunt from the slides.
 
-Then, once you are familiar with the shape of the HTTP request, see if you can use the parameters of an Weather object and the different endpoints of the GoWeather API to narrow down your search a little bit. Perhaps you could search for activities by their specific key!
+Then, once you are familiar with the shape of the HTTP request, see if you can use the parameters of the TVShow object and the TVMaze API endpoint to expand your search functionality. Perhaps you could search using a keyword that the user of our Server can specify, and return a summary in addition to just the show name!
 
 ### Handling and manipulating more complex data
 
@@ -70,7 +70,7 @@ Add at least one.
 
 ## Additional Info for Sprint 2
 
-You can deserialize a Json object into a Java object with fewer fields. E.g., if you've got a Json object with 26 different fields:
+You can deserialize a Json object into a Java object with fewer fields. E.g., if you have a Json object with 26 different fields:
 
 ```json
 {
@@ -80,7 +80,7 @@ You can deserialize a Json object into a Java object with fewer fields. E.g., if
 }
 ```
 
-You can deserialize this into an object with only `"A"` and `"B"` fields. This is useful when processing very large, verbose response Json from other APIs, but only need a few fields.
+You can deserialize this into an object with only `"A"` and `"B"` fields. This redues complexity when you're processing very large, verbose response Json from other APIs, but you only need a few fields.
 
 ## Note about SLF4J Error
 

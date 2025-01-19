@@ -7,12 +7,18 @@ package edu.brown.cs.student.main.television;
 // Main TVShow class
 public class TVShow {
 
-  //When looking at the raw response, notice that there are many additional fields beyond name and
-  //summary. Moshi allows us to pick just the fields we want to examine from our JSON, in this case,
-  //just name and summary.
+  // Using Postman, examine the response JSon. When looking at the raw response, notice that there are many additional fields beyond name. 
+  // Moshi allows us to pick just the fields we want to examine from our JSON and omit the rest.
+
+  // TODO 1.2: Include a summary of the TVShow in addition to the name. Update toString() to display this summary.
 
   public String name;
   public String summary;
 
   public TVShow() {}
+
+  @Override
+  public String toString() {
+    return "The TV Show is " + this.name;
+  }
 }

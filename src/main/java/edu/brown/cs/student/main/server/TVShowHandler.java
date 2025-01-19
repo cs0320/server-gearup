@@ -20,8 +20,7 @@ import spark.Route;
  * This class is used to illustrate how to build and send a GET request then prints the response. It
  * will also demonstrate a simple Moshi deserialization from online data.
  */
-// TODO 1: Check out this Handler. How can we search up TV shows based on a specific keyword?
-// See Documentation here: https://www.tvmaze.com/api
+// TODO 1.1: Check out this Handler. The current logic will return the top result of searching "squid". 
 
 public class TVShowHandler implements Route {
   /**
@@ -51,7 +50,7 @@ public class TVShowHandler implements Route {
     Map<String, Object> responseMap = new HashMap<>();
     try {
       // Sends a request to the API and receives JSON back
-      String showJson = this.sendRequest();
+      String showJson = this.sendRequest(keyword);
       // Deserializes JSON into an TVShow
       TVShow show = TVShowAPIUtilities.deserializeTVShow(showJson);
       // Adds the data we care about to the responseMap
@@ -69,14 +68,16 @@ public class TVShowHandler implements Route {
     return responseMap;
   }
 
-  private String sendRequest() throws URISyntaxException, IOException, InterruptedException {
+  private String sendRequest(String keyword) throws URISyntaxException, IOException, InterruptedException {
     // Build a request to this TVMaze API. Try out this link in your browser, what do you see?
-    // TODO 1: Looking at the documentation, how can we modify the URI to search for shows based on a specific keyword that we specify?
-    // HINT: you will want to replace random with a different endpoint!
-    // TODO 1.1: complete the TODO in TVShow.java
+    // TODO 1.1: Looking at the documentation, how can we modify the URI to search for shows based on a specific keyword that we specify?
+    // See Documentation here: https://www.tvmaze.com/api
+    String uri = "https://api.tvmaze.com/search/shows?q=" + keyword;
+
+    // TODO 1.2: complete the TODO in TVShow.java
     HttpRequest buildTVShowApiRequest =
             HttpRequest.newBuilder()
-                    .uri(new URI("https://api.tvmaze.com/search/shows?q=squid"))
+                    .uri(new URI(uri))
                     .GET()
                     .build();
 

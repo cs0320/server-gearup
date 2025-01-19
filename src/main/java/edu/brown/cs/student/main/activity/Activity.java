@@ -17,7 +17,7 @@ public class Activity {
     return "The temperature is " + this.temperature;
   }
 
-  // TODO 1.1: Replace the top function with this one below once you have modified the URI in TODO 1
+  // TODO 1.2: Replace the top function with this one below once you have modified the URI in TODO 1
 
   //  @Override
   //  public String toString() {

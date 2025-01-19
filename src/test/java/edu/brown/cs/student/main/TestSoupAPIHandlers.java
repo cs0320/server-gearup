@@ -3,8 +3,8 @@ package edu.brown.cs.student.main;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.squareup.moshi.Moshi;
-import edu.brown.cs.student.main.server.ActivityHandler;
 import edu.brown.cs.student.main.server.OrderHandler;
+import edu.brown.cs.student.main.server.TVShowHandler;
 import edu.brown.cs.student.main.soup.Soup;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -77,7 +77,7 @@ public class TestSoupAPIHandlers {
 
     // In fact, restart the entire Spark server for every test!
     Spark.get("order", new OrderHandler(menu));
-    Spark.get("activity", new ActivityHandler());
+    Spark.get("show", new TVShowHandler());
     Spark.init();
     Spark.awaitInitialization(); // don't continue until the server is listening
   }
