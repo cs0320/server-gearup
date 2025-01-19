@@ -56,7 +56,8 @@ public class TVShowHandler implements Route {
       // Adds the data we care about to the responseMap
       responseMap.put("result", "success");
       responseMap.put("name", show.name);
-      responseMap.put("summary", show.summary);
+
+
       return responseMap;
     } catch (Exception e) {
       e.printStackTrace();
@@ -72,7 +73,7 @@ public class TVShowHandler implements Route {
     // Build a request to this TVMaze API. Try out this link in your browser, what do you see?
     // TODO 1.1: Looking at the documentation, how can we modify the URI to search for shows based on a specific keyword that we specify?
     // See Documentation here: https://www.tvmaze.com/api
-    String uri = "https://api.tvmaze.com/search/shows?q=" + keyword;
+    String uri = "https://api.tvmaze.com/search/shows?q=squid";
 
     // TODO 1.2: complete the TODO in TVShow.java
     HttpRequest buildTVShowApiRequest =

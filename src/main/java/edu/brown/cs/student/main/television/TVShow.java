@@ -1,7 +1,7 @@
 package edu.brown.cs.student.main.television;
 
 /**
- * This is a class that models an Activity received from the BoredAPI. It doesn't have a lot but
+ * This is a class that models a TVShow from our API. It doesn't have a lot but
  * there are a few fields that you could filter on if you wanted!
  */
 // Main TVShow class
@@ -13,7 +13,6 @@ public class TVShow {
   // TODO 1.2: Include a summary of the TVShow in addition to the name. Update toString() to display this summary.
 
   public String name;
-  public String summary;
 
   public TVShow() {}
 
