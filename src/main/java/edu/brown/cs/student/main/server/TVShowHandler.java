@@ -56,6 +56,7 @@ public class TVShowHandler implements Route {
       // Adds the data we care about to the responseMap
       responseMap.put("result", "success");
       responseMap.put("name", show.name);
+      responseMap.put("summary", null); // TODO 1.2
 
 
       return responseMap;
