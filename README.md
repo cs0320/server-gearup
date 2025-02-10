@@ -44,12 +44,33 @@ Take a minute to familiarize yourself with the project. Start at the entry point
 
 Run the `server.edu.brown.cs.student.main.Server` and confirm that you are able to make web queries from your browser. Visit the endpoints specified in `Server.java`. What do they return right now?
 
+<<<<<<< Updated upstream
 ### Making HTTP requests
 See places labeled `TODO 1` in `ActivityHandler.java` and `TODO 1.1` in `Activity.java`.
+=======
+## Making HTTP Requests
+>>>>>>> Stashed changes
 
-Try to find the places in the code that correspond to the Architecture Diagram Hunt from the slides. 
+Find the places labeled `TODO A` and `TODO B` in `ActivityHandler.java`.
 
+<<<<<<< Updated upstream
 Then, once you are familiar with the shape of the HTTP request, see if you can use the parameters of an Activity object and the different endpoints of the BoredAPI to narrow down your search a little bit. Perhaps you could search for activities by their specific key!
+=======
+- Start by looking at how the handler retrieves **query parameters** from incoming requests.  
+  Try printing out all parameters to understand what is available.
+
+
+- Then, explore how `sendRequest()` builds an HTTP request.  
+  Right now, it **does not filter activities**—how could you modify it to use parameters from the request?
+
+
+- Think about how you could request **activities for a specific number of participants**  
+  or filter for certain activity types.
+
+
+- If you're stuck, revisit the **Architecture Diagram Hunt** from the slides  
+  to see how different components of the system interact.
+>>>>>>> Stashed changes
 
 ### Handling and manipulating more complex data
 

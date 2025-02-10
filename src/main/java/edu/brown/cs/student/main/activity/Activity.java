@@ -8,20 +8,21 @@ public class Activity {
   private String activity;
   private String type;
   private int participants;
-  private double price;
-  private String key;
+
 
   public Activity() {}
 
   @Override
   public String toString() {
-    return this.activity + " with " + this.participants + " people.";
+    // If the activity involves only 1 person, we use "1 person" instead of "1 people" for correct grammar
+    if (this.participants == 1) {
+      return this.activity + " with 1 person.";
+    } else {
+      // For multiple participants, we use "X people" to reflect the total number of participants
+      return this.activity + " with " + this.participants + " people.";
+    }
   }
 
-  // TODO 1.1: Replace the top function with this one below once you have modified the URI in TODO 1
 
-  //  @Override
-  //  public String toString() {
-  //  return "key " + this.key + " corresponds to this activity: " + this.activity;
-  //  }
+
 }
