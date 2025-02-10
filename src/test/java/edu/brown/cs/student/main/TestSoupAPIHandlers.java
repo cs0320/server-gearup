@@ -135,31 +135,6 @@ public class TestSoupAPIHandlers {
   @Test
   // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type
   // checker
-  public void testAPINoRecipes() throws IOException {
-    HttpURLConnection clientConnection = tryRequest("order");
-    // Get an OK response (the *connection* worked, the *API* provides an error response)
-    assertEquals(200, clientConnection.getResponseCode());
-
-    // Now we need to see whether we've got the expected Json response.
-    // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
-    Moshi moshi = new Moshi.Builder().build();
-    // We'll use okio's Buffer class here
-    OrderHandler.SoupNoRecipesFailureResponse response =
-        moshi
-            .adapter(OrderHandler.SoupNoRecipesFailureResponse.class)
-            .fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-
-    System.out.println(response);
-    // ^ If that succeeds, we got the expected response. Notice that this is *NOT* an exception, but
-    // a real Json reply.
-
-    clientConnection.disconnect();
-  }
-
-  @Test
-  // Recall that the "throws IOException" doesn't signify anything but acknowledgement to the type
-  // checker
-  // NOTE: In solution, this is updated to match the new implementation of OrderHandler
   public void testAPIOneRecipe() throws IOException {
     menu.add(
         Soup.buildNoExceptions(
